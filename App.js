@@ -6,6 +6,7 @@ import WelcomeScreen from './screens/WelcomeScreen';
 import LoginScreen from './screens/LoginScreen'; 
 import SignupScreen from './screens/SignupScreen';
 import HomeScreen from './screens/HomeScreen';
+import AddTripScreen from './screens/AddTripScreen';
 
 export default function App() {
   const Stack = createNativeStackNavigator();
@@ -28,6 +29,10 @@ export default function App() {
           options={{ headerShown: false, gestureEnabled: false }}
           name="Home"  
           component={HomeScreen} />
+        <Stack.Screen
+          options={{ headerShown: false, gestureEnabled: false }}
+          name="AddTrip"
+          component={AddTripScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

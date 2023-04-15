@@ -12,9 +12,6 @@ const HomeScreen = () => {
             })
             .catch(error => alert(error.message))
         }
-    const printauth = () => {
-        console.log(auth.currentUser)
-    }
 
   return (
     <SafeAreaView>
@@ -22,10 +19,12 @@ const HomeScreen = () => {
         <TouchableOpacity onPress={handleSignOut}>
             <Text>Sign Out</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={printauth}>
-            <Text>Print Auth</Text>
-        </TouchableOpacity>
 
+        <Text>You have no planned trips</Text>
+        <TouchableOpacity onPress={() => navigation.navigate("AddTrip")}>
+            <Text>Add Trip</Text>
+        </TouchableOpacity>
+    
 
     </SafeAreaView>
   )
