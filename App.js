@@ -2,14 +2,17 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import WelcomeScreen from './screens/WelcomeScreen';
 import LoginScreen from './screens/LoginScreen'; 
 import SignupScreen from './screens/SignupScreen';
 import HomeScreen from './screens/HomeScreen';
 import AddTripScreen from './screens/AddTripScreen';
+import ProfileScreen from './screens/ProfileScreen';
 
 export default function App() {
   const Stack = createNativeStackNavigator();
+  const Tab = createBottomTabNavigator();
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -33,6 +36,10 @@ export default function App() {
           options={{ headerShown: false, gestureEnabled: false }}
           name="AddTrip"
           component={AddTripScreen} />
+        <Stack.Screen
+          options={{ headerShown: false, gestureEnabled: false }}
+          name="Profile"
+          component={ProfileScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
