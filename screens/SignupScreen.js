@@ -21,25 +21,23 @@ const SignupScreen = () => {
         })
         return unsubscribe
     }, [])
+    const handleSignUp = () => {
 
-    const handleSignup = () => {
-
-        createUserWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                const user = userCredential.user;
-                const userId = user.uid;
-                database.ref('users/' + userId).set({
-                    name: name,
-                    email: email.toLowerCase(),
-                    phone: phone,
-                });
-                console.log("Signed up with: ", user.email);
-                updateProfile(auth.currentUser, {
-                    displayName: name
-                });
-
+        createUserWithEmailAndPassword(auth, email,password)
+        .then((userCredentials) => {
+            const user = userCredentials.user;
+            const userId = user.uid;
+            // set the display name
+            updateProfile(auth.currentUser, {
+                displayName: name
+            });
+            // set the phone number
+            database.ref('users/' + userId).set({
+                phone: phone
+            });
+            console.log("Signed up with: ", user.email);
         })
-        .catch((error) => alert(error.message))
+        .catch(error => alert(error.message))
     }
 
   return (
@@ -69,7 +67,7 @@ const SignupScreen = () => {
             value={phone}
             />
         <TouchableOpacity
-            onPress={handleSignup}
+            onPress={handleSignUp}
             >
             <Text>Signup</Text>
             </TouchableOpacity>
