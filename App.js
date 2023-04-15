@@ -12,10 +12,22 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Welcome" component={WelcomeScreen} />
-        <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="Signup" component={SignupScreen} />
-        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen           
+          options={{ headerShown: false, gestureEnabled: false }}
+          name="Welcome" 
+          component={WelcomeScreen} />
+        <Stack.Screen 
+          options={{ headerShown: false, gestureEnabled: false }}
+          name="Login" 
+          component={LoginScreen} />
+        <Stack.Screen 
+          options={{ headerShown: false, gestureEnabled: false }}
+          name="Signup"   
+          component={SignupScreen} />
+        <Stack.Screen 
+          options={{ headerShown: false, gestureEnabled: false }}
+          name="Home"  
+          component={HomeScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

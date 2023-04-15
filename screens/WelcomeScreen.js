@@ -1,11 +1,11 @@
-import { View, Text, TouchableOpacity } from 'react-native'
+import { View, Text, TouchableOpacity, SafeAreaView } from 'react-native'
 import React from 'react'
 import { useNavigation } from '@react-navigation/core'
 
 const WelcomeScreen = () => {
     const navigation = useNavigation()
   return (
-    <View>
+    <SafeAreaView>
       <Text>WelcomeScreen</Text>
       <TouchableOpacity
         onPress={() => navigation.navigate("Login")}
@@ -18,7 +18,7 @@ const WelcomeScreen = () => {
         <Text>Signup</Text>
         </TouchableOpacity>
 
-    </View>
+    </SafeAreaView>
   )
 }
 

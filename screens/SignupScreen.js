@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, SafeAreaView } from 'react-native'
 import React, {useState, useEffect} from 'react'
 import {auth, database} from "../firebase"
 import { useNavigation } from '@react-navigation/core'
@@ -15,7 +15,7 @@ const SignupScreen = () => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             if (user) {
                 setTimeout(() => {
-                    navigation.replace("Home", {user})
+                    navigation.replace("Home")
                   }, 1000);
             }
         })
@@ -33,18 +33,21 @@ const SignupScreen = () => {
                     email: email.toLowerCase(),
                     phone: phone,
                 });
-                updateProfile(auth.currentUser, {
-                    displayName: name 
-                });
                 console.log("Signed up with: ", user.email);
+                updateProfile(auth.currentUser, {
+                    displayName: name
+                });
 
         })
         .catch((error) => alert(error.message))
     }
 
   return (
-    <View>
+    <SafeAreaView>
         <Text>SignupScreen</Text>
+        <TouchableOpacity onPress={() => navigation.navigate("Welcome")}>
+            <Text>Back</Text>
+        </TouchableOpacity>
         <TextInput
             placeholder="name"
             onChangeText={(name) => setName(name)}
@@ -71,7 +74,7 @@ const SignupScreen = () => {
             <Text>Signup</Text>
             </TouchableOpacity>
 
-    </View>
+    </SafeAreaView>
   )
 }
 
