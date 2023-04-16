@@ -19,6 +19,7 @@ const TripCard = (props) => {
     const handleJoinGroup = () => {
         storeData();
         navigation.navigate("Home")
+        
     }
 
     const storeData = async () => {
