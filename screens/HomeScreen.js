@@ -16,13 +16,17 @@ const HomeScreen = () => {
             <Text>You have no planned trips</Text>
             <TouchableOpacity className='bg-blue-200 p-2 rounded-md'
             onPress={() => navigation.navigate("AddTrip")}>
-                <Text>Add Trip</Text>
+                <Text>Start a Trip</Text>
             </TouchableOpacity>
-    
+            <TouchableOpacity className='bg-blue-200 p-2 rounded-md'
+            onPress={() => navigation.navigate("DiscoverScreen")}>
+                <Text>Join an Existing Trip</Text>
+            </TouchableOpacity>
         </View>
+
         <View className='flex-row justify-between px-10'>
             <TouchableOpacity className='items-center'
-             onPress={() => navigation.navigate("Home")}>
+             onPress={() => navigation.navigate("DiscoverScreen")}>
                 <MagnifyingGlassCircleIcon />
                 <Text>Find Group</Text>
             </TouchableOpacity>

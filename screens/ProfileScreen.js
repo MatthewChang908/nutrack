@@ -25,7 +25,7 @@ const ProfileScreen = () => {
 
         <View className='flex-row justify-between px-10'>
             <TouchableOpacity className='items-center'
-             onPress={() => navigation.navigate("Home")}>
+             onPress={() => navigation.navigate("DiscoverScreen")}>
                 <MagnifyingGlassCircleIcon />
                 <Text>Find Group</Text>
             </TouchableOpacity>
