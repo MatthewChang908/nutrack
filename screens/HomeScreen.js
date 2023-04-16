@@ -1,12 +1,22 @@
-import { Image, View, Text, TouchableOpacity, SafeAreaView } from 'react-native'
-import React, { useCallback, useEffect, useState } from 'react'
-import { auth, db } from '../firebase'
-import { useNavigation } from '@react-navigation/core'
+import {
+  Image,
+  View,
+  Text,
+  TouchableOpacity,
+  SafeAreaView,
+} from "react-native";
+import React, { useCallback, useEffect, useState } from "react";
+import { auth, db } from "../firebase";
+import { useNavigation } from "@react-navigation/core";
 import { 
     doc,
     getDoc,
 } from "firebase/firestore";
-import { HomeIcon, UserCircleIcon, MagnifyingGlassCircleIcon } from "react-native-heroicons/outline";
+import {
+  HomeIcon,
+  UserCircleIcon,
+  MagnifyingGlassCircleIcon,
+} from "react-native-heroicons/outline";
 import TripCard from '../components/TripCard';
 
 const HomeScreen = () => {
@@ -58,11 +68,11 @@ const HomeScreen = () => {
     }, []);
 
   return (
-    <SafeAreaView className='flex-1 justify-between'>
+    <SafeAreaView className='flex-1 justify-between bg-white'>
         {hasTrips && (
             <View>
-                <View className='flex mt-4 items-center justify-center'>
-                <Text>Hi, {auth.currentUser.displayName}</Text>
+                <View className='flex mt-64 items-center justify-center'>
+                <Text className='text-black text-4xl font-lg'>Hi, {auth.currentUser.displayName}</Text>
                 
                 <Text className="text-black text-2xl font-lg">Here are your upcoming trips</Text>
                 </View>
@@ -90,26 +100,21 @@ const HomeScreen = () => {
                 <Text className="text-black text-2xl font-lg">You have no planned trips</Text>
                 <TouchableOpacity className='bg-white w-10/12 h-12 mt-4 rounded-md items-center justify-center  border-black border-2'
                 onPress={() => navigation.navigate("AddTrip")}>
-                    <Text className="text-black text-lg font-lg">Start a Trip</Text>
+                    <Text className="text-black text-lg font-lg">join/Create a Trip</Text>
                 </TouchableOpacity>
                 <TouchableOpacity className='bg-black w-10/12 h-12 mt-4 rounded-md items-center justify-center'
                 onPress={() => navigation.navigate("DiscoverScreen")}>
-                    <Text className="text-white text-lg font-lg">Join an Existing Trip</Text>
+                    <Text className="text-white text-lg font-lg">Join another Trip</Text>
                 </TouchableOpacity>
             </View>
         )}
         {!hasTrips && (
-            <Image 
-            source={require('../assets/map.jpeg')}
-            className='w-80 h-40 ml-12 mt-48 mb-12'
-        />
+            <Image
+            source={require("../assets/map.png")}
+            className="flex justify-between w-80 h-40 ml-10 mt-32 mb-16"
+          />
         )}
-        <View className='items-center justify-center'>
-            <TouchableOpacity className='bg-black w-10/12 h-12 rounded-md items-center justify-center'
-                            onPress={() => navigation.navigate("DiscoverScreen")}>
-                                <Text className="text-white text-lg font-lg">Join/Create a Trip</Text>
-            </TouchableOpacity>
-        </View>
+
         <View className='flex-row justify-between px-10'>
             <TouchableOpacity className='items-center w-1/4'
              onPress={() => navigation.navigate("DiscoverScreen")}>
@@ -117,23 +122,24 @@ const HomeScreen = () => {
                 <Text>Find Group</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity className='items-center w-1/4'
-            onPress={() => navigation.navigate("Home")}>
-                <HomeIcon color={"#000000"} size={40}/>
-                <Text>Home</Text>
-            </TouchableOpacity>
+        <TouchableOpacity
+          className="items-center w-1/4"
+          onPress={() => navigation.navigate("Home")}
+        >
+          <HomeIcon color={"#000000"} size={40} />
+          <Text>Home</Text>
+        </TouchableOpacity>
 
-
-            <TouchableOpacity className='items-center w-1/4'
-            onPress={() => navigation.navigate("Profile")}>
-                <UserCircleIcon color={"#000000"} size={40}/>
-                <Text>Profile</Text>
-            </TouchableOpacity>
-        </View>
-
-            
+        <TouchableOpacity
+          className="items-center w-1/4"
+          onPress={() => navigation.navigate("Profile")}
+        >
+          <UserCircleIcon color={"#000000"} size={40} />
+          <Text>Profile</Text>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
-  )
-}
+  );
+};
 
-export default HomeScreen
+export default HomeScreen;

@@ -12,19 +12,21 @@ const AddTripScreen = () => {
     
     const [date, setDate] = useState(new Date());
     const [time, setTime] = useState(new Date());
+    const [dateString, setDateString] = useState("");
+    const [timeString, setTimeString] = useState("");
     const [showDate, setShowDate] = useState(false);
     const [showTime, setShowTime] = useState(false);
   
     const onChangeTime = (event, selectedDate) => {
-      const currentDate = selectedDate;
-      setShowTime(false);
-      setTime(currentDate);
+        setTimeString(selectedDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}));
+        setShowTime(false);
+        setTime(selectedDate);
     };
     const onChangeDate = (event, selectedDate) => {
-        const currentDate = selectedDate;
+        setDateString(selectedDate.toLocaleDateString());
         setShowDate(false);
-        setDate(currentDate);
-      };
+        setDate(selectedDate);
+    };
   
   
     const handleShowDate = () => {
@@ -45,7 +47,7 @@ const AddTripScreen = () => {
             <ScrollView>
         
   
-        <Text className='text-4xl font-medium mt-8 ml-8'>Join a Trip</Text>
+        <Text className='text-4xl font-medium mt-8 ml-8'>Enter Trip Information</Text>
         
         <View className='bg-white grid grid-cols-1 divide-y items-left w-full mt-4 pl-8 pr-8 divide-gray-400'> 
 
@@ -58,7 +60,7 @@ const AddTripScreen = () => {
             
             {showDate && (
                     <DateTimePicker
-                    testID="timePicker"
+                    testID="datePicker"
                     value={date}
                     mode='date'
                     onChange={onChangeDate}
@@ -77,7 +79,7 @@ const AddTripScreen = () => {
             
             {showTime && (
                     <DateTimePicker
-                    testID="datePicker"
+                    testID="timePicker"
                     value={time}
                     mode='time'
                     is24Hour={true}
@@ -106,7 +108,8 @@ const AddTripScreen = () => {
             <View className="grid grid-cols-1 divide-y divide-gray-400 pl-8 pr-8">
             <View></View>
             <View className="flex-1 bg-white w-full mt-4 pl-8 pr-8 divide-gray-400 mb-2">
-                <TouchableOpacity className="bg-black w-full h-12 mt-4 rounded-md">
+                <TouchableOpacity onPress={() => navigation.navigate("DiscoverScreen", {date: date, time: time})}
+                className="bg-black w-full h-12 mt-4 rounded-md">
                     <Text className="text-white font-bold text-center mt-4 ">FIND TRIP</Text>
                 </TouchableOpacity>
             </View>
