@@ -51,6 +51,7 @@ const DiscoverScreen = () => {
                     destination={trip.destination}
                     pickup={trip.pickup}
                     time={timeString}
+                    id={trip.id}
 
                     />
                 );

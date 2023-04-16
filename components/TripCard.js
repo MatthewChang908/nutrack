@@ -8,6 +8,8 @@ const TripCard = (props) => {
     const month = date.getMonth() + 1; // add 1 to convert zero-based index to one-based index
     const day = date.getDate();
     const time = date.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+    const id = props.id;
+
     const [show, setShow] = useState(false)
     const navigation = useNavigation();
     const handlePress = () => {
@@ -22,28 +24,29 @@ const TripCard = (props) => {
     const storeData = async () => {
         const docRef = doc(db, "Users", auth.currentUser.uid);
         const docSnap = await getDoc(docRef);
+        console.log("printed: ", docSnap.data());
         if (docSnap.exists()) {
             const user = docSnap.data();
             const newTrips = user.trips;
-            console.log("newTrips: ", newTrips);
+            
             newTrips.push(props.id);
             await updateDoc(docRef, {
                 trips: newTrips
             });
         }
 
-        // const tripRef = doc(db, "Trips", props.id);
-        // const tripSnap = await getDoc(tripRef);
-        // if (tripSnap.exists()) {
-        //     const trip = tripSnap.data();
-        //     const newRiders = trip.users;
-        //     const curNum = trip.numOfUsers;
-        //     newRiders.push(auth.currentUser.uid);
-        //     await updateDoc(tripRef, {
-        //         users: newRiders,
-        //         numOfUsers: curNum + 1,
-        //     });
-        // }
+        const tripRef = doc(db, "Trips", props.id);
+        const tripSnap = await getDoc(tripRef);
+        if (tripSnap.exists()) {
+            const trip = tripSnap.data();
+            const newRiders = trip.users;
+            const curNum = trip.numOfUsers;
+            newRiders.push(auth.currentUser.uid);
+            await updateDoc(tripRef, {
+                users: newRiders,
+                numOfUsers: curNum + 1,
+            });
+        }
     }
 
 
