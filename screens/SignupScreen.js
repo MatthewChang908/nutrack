@@ -1,9 +1,12 @@
 import { View, Text, TextInput, TouchableOpacity, SafeAreaView } from 'react-native'
 import React, {useState, useEffect} from 'react'
-import { auth, database } from "../firebase"
+import { auth, database, db } from "../firebase"
 import { useNavigation } from '@react-navigation/core'
+import { 
+    doc,
+    setDoc,
+} from "firebase/firestore";
 import { createUserWithEmailAndPassword, onAuthStateChanged, updateProfile } from 'firebase/auth'
-import { createUserDoc } from '../backend/Signup'
 
 const SignupScreen = () => {
     const [email, setEmail] = useState("")
@@ -24,20 +27,27 @@ const SignupScreen = () => {
     }, [])
     const handleSignUp = () => {
 
-        createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredentials) => {
-            console.log("INSIDE");
+        createUserWithEmailAndPassword(auth, email,password)
+        .then(async (userCredentials) => {
             const user = userCredentials.user;
             const userId = user.uid;
+            console.log(user);
+            console.log(userId);
             // set the display name
             updateProfile(auth.currentUser, {
                 displayName: name
             });
             // set the phone number
             console.log("Signed up with: ", user.email);
-        })
-        .then(() => {
-            createUserDoc(userId, phone);
+            console.log(phone);
+
+            // put in backend folder if have time
+            await setDoc(doc(db, 'Users', userId), {
+                phone: phone,
+                userName: name,
+                email: email,
+                trips: []
+            }, { merge: true });
         })
         .catch(error => alert(error.message))
     }
