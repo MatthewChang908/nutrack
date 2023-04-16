@@ -7,8 +7,14 @@ import { auth, db } from '../firebase'
 import TripCard from '../components/TripCard';
 
 const DiscoverScreen = ({route}) => {
+    //default values for {date, time}
+    const [date, setDate] = useState(new Date());
+    const [time, setTime] = useState(new Date());
+    if (route.params){
+        setDate(route.params.date);
+        setTime(route.params.time);
+    }
 
-    const {date, time} = route.params;
     const navigation = useNavigation()
     const userId = auth.currentUser.uid;
     const [trips, setTrips] = useState([]);
@@ -63,7 +69,7 @@ const DiscoverScreen = ({route}) => {
 
  
     useEffect(() => {
-        getDataWithinTime().then(() => {
+        getData().then(() => {
             console.log('Trips:', trips);
         }).catch((error) => {
           console.error('Error getting data:', error);

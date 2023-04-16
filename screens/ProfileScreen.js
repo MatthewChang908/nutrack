@@ -67,7 +67,7 @@ const ProfileScreen = () => {
   return (
     <SafeAreaView className="flex-1 justify-between">
       <View>
-        <View className="flex-col justify-between">
+        <View className="flex-col justify-between items-center pt-40">
           {editPhoneNumber ? (
             <View className="flex-col items-center">
               <Text className=" items-left text-xl font-medium mt-8">
@@ -97,7 +97,7 @@ const ProfileScreen = () => {
               </View>
             </View>
           ) : (
-            <Text className="text-xl font-medium mt-8 ml-8">{phoneNumber}</Text>
+            <Text className="text-xl font-medium mt-8 ml-8">Phone: {phoneNumber}</Text>
           )}
         </View>
       </View>
