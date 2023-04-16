@@ -25,7 +25,7 @@ const ProfileScreen = () => {
     const printAuth = () => {
         console.log(auth.currentUser)
     }
-
+    
 
   return (
     
@@ -43,7 +43,7 @@ const ProfileScreen = () => {
                 <TouchableOpacity onPress={printAuth}>
                     <Text>Print Auth</Text>
                 </TouchableOpacity>
-                
+
             </View>
       
 
