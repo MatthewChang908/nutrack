@@ -8,31 +8,31 @@ import TripCard from '../components/TripCard';
 
 const DiscoverScreen = ({route}) => {
     //default values for {date, time}
-    const [date, setDate] = useState(new Date());
-    const [time, setTime] = useState(new Date());
-    if (route.params){
-        setDate(route.params.date);
-        setTime(route.params.time);
-    }
+    // const [date, setDate] = useState(new Date());
+    // const [time, setTime] = useState(new Date());
+    // if (route.params){
+    //     setDate(route.params.date);
+    //     setTime(route.params.time);
+    // }
 
     const navigation = useNavigation()
     const userId = auth.currentUser.uid;
     const [trips, setTrips] = useState([]);
 
-    // Extract the time from the time variable
-    const hours = time.getHours();
-    const minutes = time.getMinutes();
+    // // Extract the time from the time variable
+    // const hours = time.getHours();
+    // const minutes = time.getMinutes();
 
-    // Extract the date from the date variable and format it as a string
-    const day = date.toLocaleDateString();
+    // // Extract the date from the date variable and format it as a string
+    // const day = date.toLocaleDateString();
 
-    // Create the start and end timestamps
-    const startTimestamp = new Timestamp.fromMillis(
-      date.setHours(hours, minutes, 0, 0) // set the time to the specified hours and minutes
-    );
-    const endTimestamp = new Timestamp.fromMillis(
-      date.setHours(hours + 1, minutes, 0, 0) // set the end time to one hour after the specified time
-    );
+    // // Create the start and end timestamps
+    // const startTimestamp = new Timestamp.fromMillis(
+    //   date.setHours(hours, minutes, 0, 0) // set the time to the specified hours and minutes
+    // );
+    // const endTimestamp = new Timestamp.fromMillis(
+    //   date.setHours(hours + 1, minutes, 0, 0) // set the end time to one hour after the specified time
+    // );
 
     const getData = async () => {
       const querySnapshot = await getDocs(collection(db, "Trips"));
@@ -48,24 +48,24 @@ const DiscoverScreen = ({route}) => {
       setTrips(newTrips);
     };
 
-    const getDataWithinTime = async () => {
-      // Query the collection for documents within the specified time range
-      const q = query(
-        collection(db, "Trips"),
-        where("time", ">=", startTimestamp),
-        where("time", "<", endTimestamp)
-      );
-      const querySnapshot = await getDocs(q);
-      const newTrips = [];
-      querySnapshot.forEach((doc) => {
-        // doc.data() is never undefined for query doc snapshots
-        console.log(doc.id, " => ", doc.data());
-        // add doc.data() to newTrips
-        newTrips.push({ id: doc.id, ...doc.data() });
-      });
-      // update the state with newTrips
-      setTrips(newTrips);
-    };
+    // const getDataWithinTime = async () => {
+    //   // Query the collection for documents within the specified time range
+    //   const q = query(
+    //     collection(db, "Trips"),
+    //     where("time", ">=", startTimestamp),
+    //     where("time", "<", endTimestamp)
+    //   );
+    //   const querySnapshot = await getDocs(q);
+    //   const newTrips = [];
+    //   querySnapshot.forEach((doc) => {
+    //     // doc.data() is never undefined for query doc snapshots
+    //     console.log(doc.id, " => ", doc.data());
+    //     // add doc.data() to newTrips
+    //     newTrips.push({ id: doc.id, ...doc.data() });
+    //   });
+    //   // update the state with newTrips
+    //   setTrips(newTrips);
+    // };
 
  
     useEffect(() => {
@@ -76,13 +76,13 @@ const DiscoverScreen = ({route}) => {
         });
       }, []);
 
-    const printDateTime = () => {
-      console.log('Start Date:', day);
-      console.log('End Date:', hours, minutes);
-    }
-    const printTrips  = () => {
-      console.log('Trips:', trips);
-    }
+    // const printDateTime = () => {
+    //   console.log('Start Date:', day);
+    //   console.log('End Date:', hours, minutes);
+    // }
+    // const printTrips  = () => {
+    //   console.log('Trips:', trips);
+    // }
 
     return (
 
@@ -108,36 +108,33 @@ const DiscoverScreen = ({route}) => {
                   );
                   })}
             </ScrollView>
-            <TouchableOpacity
-            onPress={() => printDateTime()}>
-              <Text>Print Date and Time</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-            onPress={() => printTrips()}>
-              <Text>Print Trips</Text>
-            </TouchableOpacity>
-
         </View>
 
-        <View className = 'flex-row justify-between px-10'>
-            <TouchableOpacity className='items-center'
-            onPress={() => navigation.navigate("DiscoverScreen")}>
-                <MagnifyingGlassCircleIcon />
-                <Text>Find Group</Text>
-            </TouchableOpacity>
-            
-            <TouchableOpacity className='items-center'
-            onPress={() => navigation.navigate("Home")}>
-                <HomeIcon />
-                <Text>Home</Text>
-            </TouchableOpacity>
+        <View className="flex-row justify-between px-10">
+        <TouchableOpacity
+          className="items-center w-1/4"
+          onPress={() => navigation.navigate("DiscoverScreen")}
+        >
+          <MagnifyingGlassCircleIcon color={"#000000"} size={40} />
+          <Text>Find Group</Text>
+        </TouchableOpacity>
 
-            <TouchableOpacity className='items-center'
-            onPress={() => navigation.navigate("Profile")}>
-                <UserCircleIcon />
-                <Text>Profile</Text>
-            </TouchableOpacity>
-        </View>
+        <TouchableOpacity
+          className="items-center w-1/4"
+          onPress={() => navigation.navigate("Home")}
+        >
+          <HomeIcon color={"#000000"} size={40} />
+          <Text>Home</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          className="items-center w-1/4"
+          onPress={() => navigation.navigate("Profile")}
+        >
+          <UserCircleIcon color={"#000000"} size={40} />
+          <Text>Profile</Text>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
 
     
