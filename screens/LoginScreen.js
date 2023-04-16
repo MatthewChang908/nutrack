@@ -38,11 +38,14 @@ const LoginScreen = () => {
                 placeholder="Email"
                 onChangeText={(email) => setEmail(email)}
                 value={email}
+                autoCapitalize='none'
             />
             <TextInput className='bg-white border-2 border-black w-full mt-4 pl-2 h-12'
                 placeholder="Password"
                 onChangeText={(password) => setPassword(password)}
                 value={password}
+                secureTextEntry
+                autoCapitalize='none'
             />
             <TouchableOpacity onPress={handleLogin} className="bg-black w-full h-12 mt-4 rounded-md">
                 <Text className="text-white font-bold text-center mt-4">LOG IN</Text>
