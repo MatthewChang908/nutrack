@@ -88,25 +88,6 @@ const DiscoverScreen = ({route}) => {
 
     <SafeAreaView className= 'flex-1 justify-between'>
         <View>
-            <Text>DiscoverScreen</Text>
-            <TouchableOpacity onPress={() => console.log(trips)}>
-                <Text>Print Trips</Text>
-            </TouchableOpacity>
-            <Text>{trips.length}</Text>
-            {trips.map((trip, index) => {
-                const { seconds, nanoseconds } = trip.time;
-                const timeString = `${seconds}.${nanoseconds}`;
-                return (
-                    <TripCard
-                    key={index} // don't forget to add a unique key to each child element when rendering an array
-                    destination={trip.destination}
-                    pickup={trip.pickup}
-                    time={timeString}
-                    id={trip.id}
-                    hasButton={false}
-                    />
-                );
-                })}
           <View>
             <Text className='text-4xl font-bold text-center mt-4'>Discover</Text>
           </View>

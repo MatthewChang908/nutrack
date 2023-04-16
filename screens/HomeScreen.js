@@ -100,11 +100,7 @@ const HomeScreen = () => {
                 <Text className="text-black text-2xl font-lg">You have no planned trips</Text>
                 <TouchableOpacity className='bg-white w-10/12 h-12 mt-4 rounded-md items-center justify-center  border-black border-2'
                 onPress={() => navigation.navigate("AddTrip")}>
-                    <Text className="text-black text-lg font-lg">join/Create a Trip</Text>
-                </TouchableOpacity>
-                <TouchableOpacity className='bg-black w-10/12 h-12 mt-4 rounded-md items-center justify-center'
-                onPress={() => navigation.navigate("DiscoverScreen")}>
-                    <Text className="text-white text-lg font-lg">Join another Trip</Text>
+                    <Text className="text-black text-lg font-lg">Join/Create a Trip</Text>
                 </TouchableOpacity>
             </View>
         )}
