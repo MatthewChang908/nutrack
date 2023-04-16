@@ -16,6 +16,8 @@ const HomeScreen = () => {
 
     useEffect(() => {
         const getTripId = async () => {
+            //docRef is the reference for the document, db = firestore, 
+            //'Users' is the collection, userId is the current user
             const docRef = doc(db, 'Users', userId);
             const docSnap = await getDoc (docRef);
             
@@ -27,6 +29,7 @@ const HomeScreen = () => {
             }
         };
 
+        // check if the user has any trips in the trip array
         getTripId.then((trips) => {
             if (trips) {
                 SetHasTrips(true);
