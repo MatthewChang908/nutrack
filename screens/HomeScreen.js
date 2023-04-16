@@ -1,11 +1,38 @@
 import { View, Text, TouchableOpacity, SafeAreaView } from 'react-native'
-import React from 'react'
-import { auth } from '../firebase'
+import React, { useCallback, useEffect, useState } from 'react'
+import { auth, db } from '../firebase'
 import { useNavigation } from '@react-navigation/core'
+import { 
+    doc,
+    getDoc,
+} from "firebase/firestore";
 import { HomeIcon, UserCircleIcon, MagnifyingGlassCircleIcon } from "react-native-heroicons/outline";
 
+const userId = auth.currentUser.uid;
+
 const HomeScreen = () => {
-    const navigation = useNavigation()
+    const navigation = useNavigation();
+    const [hasTrips, SetHasTrips] = useState(false);
+
+    useEffect(() => {
+        const getTripId = async () => {
+            const docRef = doc(db, 'Users', userId);
+            const docSnap = await getDoc (docRef);
+            
+            if (docSnap.exists()) {
+                return docSnap.data.trips;
+            }
+            else {
+                return null;
+            }
+        };
+
+        getTripId.then((trips) => {
+            if (trips) {
+                SetHasTrips(true);
+            }
+        }).catch(console.error);
+    });
 
 
   return (
