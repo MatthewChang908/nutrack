@@ -4,7 +4,7 @@ import { auth } from '../firebase'
 import { useNavigation } from '@react-navigation/core'
 import { HomeIcon, UserCircleIcon, MagnifyingGlassCircleIcon, Cog6ToothIcon } from "react-native-heroicons/outline";
 import {updateProfile} from "firebase/auth"
-
+import {doc, getDoc} from "firebase/firestore"
 const ProfileScreen = () => {
     const navigation = useNavigation()
     const handleSignOut = () => {
@@ -25,7 +25,7 @@ const ProfileScreen = () => {
     const printAuth = () => {
         console.log(auth.currentUser)
     }
-    
+
 
   return (
     

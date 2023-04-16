@@ -44,7 +44,9 @@ const AddTripScreen = () => {
   
             <Text className='text-4xl font-medium mt-8 ml-8'>Join a Trip</Text>
         
-        <View className='bg-white items-left w-10/12 mt-4 ml-8'> 
+        <View className='bg-white grid grid-cols-1 divide-y items-left w-full mt-4 pl-8 pr-8'> 
+
+        <View>
         <Text className="font-bold text-xl">Date of Trip</Text>
         <TouchableOpacity className='bg-gray-200'
         onPress={handleShowDate}>
@@ -58,9 +60,10 @@ const AddTripScreen = () => {
                 onChange={onChangeDate}
             />
         )}
+        </View>
 
      
-
+        <View>
         <Text>Time of Trip</Text>
         <TouchableOpacity className='bg-gray-200' 
         onPress={handleShowTime}>
@@ -76,7 +79,9 @@ const AddTripScreen = () => {
                 onChange={onChangeTime}
                 />
         )}
+        </View>
 
+        <View>
         <Text>Airport</Text>
         <TextInput className='bg-gray-200'
             onChangeText={(airport) => setAirport(airport)}
