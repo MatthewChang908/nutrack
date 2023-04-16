@@ -18,7 +18,8 @@ const DiscoverScreen = () => {
         // doc.data() is never undefined for query doc snapshots
         console.log(doc.id, " => ", doc.data());
         // add doc.data() to newTrips
-        newTrips.push(doc.data());
+        newTrips.push({ id: doc.id, ...doc.data() });
+
       });
       // update the state with newTrips
       setTrips(newTrips);
@@ -41,15 +42,17 @@ const DiscoverScreen = () => {
                 <Text>Print Trips</Text>
             </TouchableOpacity>
             <Text>{trips.length}</Text>
-            {trips.map((trip) => {
+            {trips.map((trip, index) => {
                 const { seconds, nanoseconds } = trip.time;
                 const timeString = `${seconds}.${nanoseconds}`;
                 return (
                     <TripCard
-                    key={trip.id} // don't forget to add a unique key to each child element when rendering an array
+                    key={index} // don't forget to add a unique key to each child element when rendering an array
                     destination={trip.destination}
                     pickup={trip.pickup}
                     time={timeString}
+                    id={trip.id}
+
                     />
                 );
                 })}
