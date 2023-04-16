@@ -52,7 +52,7 @@ const DiscoverScreen = () => {
                     pickup={trip.pickup}
                     time={timeString}
                     id={trip.id}
-
+                    hasButton={false}
                     />
                 );
                 })}

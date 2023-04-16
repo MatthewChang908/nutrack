@@ -18,58 +18,69 @@ const HomeScreen = () => {
     const getTripId = useCallback(async () => {
         //docRef is the reference for the document, db = firestore, 
         //'Users' is the collection, userId is the current user
-        const docRef = doc(db, 'Users', userId);
-        const docSnap = await getDoc(docRef);  
+         
         
         if (docSnap.exists()) {
-            return docSnap.data().trips;
-        }
-        else {
-            return null;
+            const tripIds = docSnap.data().trips;
+            setHasTrips(trips.length > 0);
+            setTripIds(tripIds);
+            console.log(tripIds);
+            return tripIds;
         }
     });
 
-    const getTrips = useCallback(async (tripIds) => {
-        const newTrips = [];
-        tripIds.forEach(async function(tripId) {
-            const docRef = doc(db, 'Trips', tripId);
-            const docSnap = await getDoc(docRef);
-            
-            if (docSnap.exists()) {
-                newTrips.push(docSnap.data());
+    const getTrips = async () => {
+        // Get all the trip that the user has
+        const docRef = doc(db, 'Users', userId);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+            const tripIds = docSnap.data().trips;
+            setHasTrips(tripIds.length > 0);
+
+            const newTrips = [];
+
+            for (const tripId of tripIds) {
+                const docRef = doc(db, 'Trips', tripId);
+                const docSnap = await getDoc(docRef);
+    
+                if (docSnap.exists()) {
+
+                    newTrips.push(docSnap.data());
+                }
             }
-        });
-        setTrips(newTrips);
-    });
+            setTrips(newTrips);
+        }        
+    };
 
     useEffect(() => {
-        // check if the user has any trips in the trip array
-        getTripId()
-        .then((tripIds) => {
-            if (tripIds.length > 0) {
-                setHasTrips(true);
-                getTrips(tripIds);
-            }
-        }).catch(console.error);
-    }, [getTripId]);
+        getTrips();
+    }, []);
 
   return (
     <SafeAreaView className='flex-1 justify-between'>
         {hasTrips && (
-            <View className='flex-1 justify-center items-center'>
-                {trips.map((trip, index) => {
-                    console.log("group", trip);
+            <View>
+                <View className='flex mt-4 items-center justify-center'>
+                <Text>Hi, {auth.currentUser.displayName}</Text>
+                
+                <Text className="text-black text-2xl font-lg">Here are your upcoming trips</Text>
+                </View>
+                <View className='mt-4'>
+                    {trips.map((trip, index) => {
                     const { seconds, nanoseconds } = trip.time;
                     const timeString = `${seconds}.${nanoseconds}`;
                     return (
                         <TripCard
-                        key={index}
-                        destination={trip.destination}
-                        pickup={trip.pickup}
-                        time={timeString}
+                            key={index} // don't forget to add a unique key to each child element when rendering an array
+                            destination={trip.destination}
+                            pickup={trip.pickup}
+                            time={timeString}
+                            hasButton={false}
                         />
-                    )
-                })}
+                    );
+                    })}
+                </View>
             </View>
         )}
         {!hasTrips && (
@@ -93,7 +104,12 @@ const HomeScreen = () => {
             className='w-80 h-40 ml-12 mt-48 mb-12'
         />
         )}
-
+        <View className='items-center justify-center'>
+            <TouchableOpacity className='bg-black w-10/12 h-12 rounded-md items-center justify-center'
+                            onPress={() => navigation.navigate("DiscoverScreen")}>
+                                <Text className="text-white text-lg font-lg">Join/Create a Trip</Text>
+            </TouchableOpacity>
+        </View>
         <View className='flex-row justify-between px-10'>
             <TouchableOpacity className='items-center w-1/4'
              onPress={() => navigation.navigate("DiscoverScreen")}>

@@ -57,7 +57,7 @@ const TripCard = (props) => {
             <Text>Pickup Location: {props.pickup}</Text>
             <Text>{month}/{day} at {time}</Text>
         </TouchableOpacity>
-        {show && (
+        {props.hasButton && show && (
             <TouchableOpacity
             onPress={() => handleJoinGroup()}
             >
