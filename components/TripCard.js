@@ -51,11 +51,11 @@ const TripCard = (props) => {
 
 
   return (
-    <View className='border'>
+    <View className='border mb-2'>
         <TouchableOpacity onPress={() => handlePress()}>
             <Text>Destination: {props.destination}</Text>
             <Text>Pickup Location: {props.pickup}</Text>
-            <Text>{month}/{day} at {time}</Text>
+            <Text>Leaving On: {month}/{day} at {time}</Text>
         </TouchableOpacity>
         {show && (
             <TouchableOpacity
