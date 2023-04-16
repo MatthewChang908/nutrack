@@ -25,26 +25,37 @@ const LoginScreen = () => {
         .catch(error => alert(error.message))
     }
   return (
-    <SafeAreaView>
-      <Text>LoginScreen</Text>
+    <SafeAreaView className='flex-1 bg-white'>
         <TouchableOpacity onPress={() => navigation.navigate("Welcome")}>
-            <Text>Back</Text>
+            <Text className="ml-4 font-medium text-large pt-2">Back</Text>
         </TouchableOpacity>
-        <TextInput
-            placeholder="email"
-            onChangeText={(email) => setEmail(email)}
-            value={email}
-        />
-        <TextInput
-            placeholder="password"
-            onChangeText={(password) => setPassword(password)}
-            value={password}
-        />
-        <TouchableOpacity onPress={handleLogin}>
-            <Text>Login</Text>
-        </TouchableOpacity>
+        <Text className='text-4xl font-medium mt-12 ml-8'>Login</Text>
+        <View className='flex-1 items-center'>
+        
+        <View className='bg-white items-center w-10/12 mt-4'>
+            
+            <TextInput className='h-12 w-full bg-white border-2 pl-2 border-black'
+                placeholder="Email"
+                onChangeText={(email) => setEmail(email)}
+                value={email}
+                autoCapitalize='none'
+            />
+            <TextInput className='bg-white border-2 border-black w-full mt-4 pl-2 h-12'
+                placeholder="Password"
+                onChangeText={(password) => setPassword(password)}
+                value={password}
+                secureTextEntry
+                autoCapitalize='none'
+            />
+            <TouchableOpacity onPress={handleLogin} className="bg-black w-full h-12 mt-4 rounded-md">
+                <Text className="text-white font-bold text-center mt-4">LOG IN</Text>
+            </TouchableOpacity>
+        </View>
+        </View>
+
             
     </SafeAreaView>
+
   )
 }
 

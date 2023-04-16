@@ -9,6 +9,7 @@ import SignupScreen from './screens/SignupScreen';
 import HomeScreen from './screens/HomeScreen';
 import AddTripScreen from './screens/AddTripScreen';
 import ProfileScreen from './screens/ProfileScreen';
+import DiscoverScreen from './screens/DiscoverScreen';
 
 export default function App() {
   const Stack = createNativeStackNavigator();
@@ -40,6 +41,10 @@ export default function App() {
           options={{ headerShown: false, gestureEnabled: false }}
           name="Profile"
           component={ProfileScreen} />
+        <Stack.Screen
+          options={{ headerShown: false, gestureEnabled: false }}
+          name="DiscoverScreen"
+          component={DiscoverScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
