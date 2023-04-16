@@ -1,12 +1,17 @@
-import { View, Text, SafeAreaView, TouchableOpacity } from 'react-native'
-import React, {useState} from 'react'
-import { auth } from '../firebase'
+import { View, Text, SafeAreaView, TouchableOpacity, TextInput } from 'react-native'
+import React, {useEffect, useState} from 'react'
+import { auth, db } from '../firebase'
 import { useNavigation } from '@react-navigation/core'
 import { HomeIcon, UserCircleIcon, MagnifyingGlassCircleIcon, Cog6ToothIcon } from "react-native-heroicons/outline";
 import {updateProfile} from "firebase/auth"
-import {doc, getDoc} from "firebase/firestore"
+import {doc, getDoc, updateDoc} from "firebase/firestore"
 const ProfileScreen = () => {
     const navigation = useNavigation()
+    const userId = auth.currentUser.uid;
+    const [phoneNumber, setPhoneNumber] = useState(0)
+    const [newPhoneNumber, setNewPhoneNumber] = useState(phoneNumber)
+    const [editPhoneNumber, setEditPhoneNumber] = useState(false)
+    
     const handleSignOut = () => {
         auth.signOut()
             .then(() => {
@@ -15,17 +20,35 @@ const ProfileScreen = () => {
             .catch(error => alert(error.message))
     }
 
-    const editPhoneNumber = () => {
-        updateProfile(auth.currentUser, {
-            phoneNumber: newPhoneNumber,
+    useEffect(() => {
+        setNewPhoneNumber(phoneNumber)
+    }, [phoneNumber])
+
+    const getPhoneNumber = async () => {
+        const docRef = doc(db, "Users", userId);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+            return docSnap.data().phone;
+        }
+    }
+
+    const updatePhoneNumber = async () => {
+        const docRef = doc(db, "Users", userId);
+        await updateDoc(docRef, {
+          phone: newPhoneNumber
         });
-    }
+        console.log('Phone number updated successfully!');
+        setPhoneNumber(newPhoneNumber)
+      }
 
-    const [newPhoneNumber, setNewPhoneNumber] = useState(auth.currentUser.phoneNumber)
-    const printAuth = () => {
-        console.log(auth.currentUser)
-    }
-
+    useEffect(() => {
+        getPhoneNumber().then((number) => {
+          console.log('Phone number:', number);
+            setPhoneNumber(number)
+        }).catch((error) => {
+          console.error('Error getting phone number:', error);
+        });
+      }, [phoneNumber]);
 
   return (
     
@@ -36,12 +59,25 @@ const ProfileScreen = () => {
                 <Text>Sign Out</Text>
             </TouchableOpacity>
             <View className='flex-row'>
-                <Text>Phone: {auth.currentUser.phoneNumber}</Text>
-                <TouchableOpacity onPress={editPhoneNumber}>
+                {editPhoneNumber ?
+                    <View>
+                        <Text>Phone: </Text>
+                        <TextInput
+                        className='bg-blue-200 w-24'
+                        value={newPhoneNumber}
+                        onChangeText={(num) => setNewPhoneNumber(num)}
+                        />
+                        <TouchableOpacity onPress={() => {
+                            updatePhoneNumber()
+                            setEditPhoneNumber(false)}}>
+                            <Text>Save</Text>
+                        </TouchableOpacity>
+                    </View>
+                    :
+                    <Text>Phone: {phoneNumber}</Text>
+                }
+                <TouchableOpacity onPress={() => setEditPhoneNumber(true)}>
                     <Cog6ToothIcon />
-                </TouchableOpacity>
-                <TouchableOpacity onPress={printAuth}>
-                    <Text>Print Auth</Text>
                 </TouchableOpacity>
 
             </View>

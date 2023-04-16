@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, TextInput, TouchableOpacity, Button } from 'react-native'
+import { View, Text, SafeAreaView, TextInput, TouchableOpacity, Button, ScrollView, KeyboardAvoidingView } from 'react-native'
 import React, {useState} from 'react'
 import { useNavigation } from '@react-navigation/core'
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -7,7 +7,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 const AddTripScreen = () => {
     const navigation = useNavigation()
     const [airport, setAirport] = useState("O'Hare")
-    const [preferredPickup, setPreferredPickup] = useState("")
+    const [preferredPickup, setPreferredPickup] = useState("Evanston")
 
     
     const [date, setDate] = useState(new Date());
@@ -37,68 +37,81 @@ const AddTripScreen = () => {
 
   return (
     <SafeAreaView className="flex-1 bg-white">
-      
-            <TouchableOpacity onPress={() => navigation.navigate("Home")}>
-                 <Text className="ml-4 pt-2 font-medium text-l">Back</Text>
-            </TouchableOpacity>
-  
-            <Text className='text-4xl font-medium mt-8 ml-8'>Join a Trip</Text>
+        <TouchableOpacity onPress={() => navigation.navigate("Home")}>
+                <Text className="ml-4 pt-2 font-medium text-l">Back</Text>
+        </TouchableOpacity>
         
-        <View className='bg-white grid grid-cols-1 divide-y items-left w-full mt-4 pl-8 pr-8'> 
+        <KeyboardAvoidingView behavior="padding" enabled>
+            <ScrollView>
+        
+  
+        <Text className='text-4xl font-medium mt-8 ml-8'>Join a Trip</Text>
+        
+        <View className='bg-white grid grid-cols-1 divide-y items-left w-full mt-4 pl-8 pr-8 divide-gray-400'> 
 
         <View>
-        <Text className="font-bold text-xl">Date of Trip</Text>
-        <TouchableOpacity className='bg-gray-200'
-        onPress={handleShowDate}>
-            <Text>{date.toLocaleDateString()}</Text>
-        </TouchableOpacity>
-        {showDate && (
-                <DateTimePicker
-                testID="timePicker"
-                value={date}
-                mode='date'
-                onChange={onChangeDate}
-            />
-        )}
+            <Text className="font-bold text-lg mt-2">Date of Trip</Text>
+            <TouchableOpacity className='bg-white border-black border-1 mt-2 -mb-1'
+            onPress={handleShowDate}>
+                <Text className="text-lg">{date.toLocaleDateString()} ▼</Text>
+            </TouchableOpacity>
+            
+            {showDate && (
+                    <DateTimePicker
+                    testID="timePicker"
+                    value={date}
+                    mode='date'
+                    onChange={onChangeDate}
+                />
+            )}
+
         </View>
 
      
-        <View>
-        <Text>Time of Trip</Text>
-        <TouchableOpacity className='bg-gray-200' 
-        onPress={handleShowTime}>
-            <Text>{time.toLocaleTimeString()}</Text>
-        </TouchableOpacity>
-        
-        {showTime && (
-                <DateTimePicker
-                testID="datePicker"
-                value={time}
-                mode='time'
-                is24Hour={true}
-                onChange={onChangeTime}
-                />
-        )}
+        <View className="mt-4">
+            <Text className="font-bold text-lg mt-2">Time of Trip</Text>
+            <TouchableOpacity className='bg-white border-black mt-2 -mb-1' 
+            onPress={handleShowTime}>
+                <Text className="text-lg">{time.toLocaleTimeString()} ▼</Text>
+            </TouchableOpacity>
+            
+            {showTime && (
+                    <DateTimePicker
+                    testID="datePicker"
+                    value={time}
+                    mode='time'
+                    is24Hour={true}
+                    onChange={onChangeTime}
+                    />
+            )}
         </View>
 
-        <View>
-        <Text>Airport</Text>
-        <TextInput className='bg-gray-200'
-            onChangeText={(airport) => setAirport(airport)}
-            value={airport}
-        />
-
-        <Text>Preferred Pickup Location</Text>
-        <TextInput className='bg-gray-200'
-            onChangeText={(preferredPickup) => setPreferredPickup(preferredPickup)}
-            value={preferredPickup}
-        />
-
-        <TouchableOpacity>
-            <Text>Submit</Text>
-        </TouchableOpacity>
+        <View className="mt-4">
+            <Text className="font-bold text-lg mt-2">Airport</Text>
+            <TextInput className='bg-white border-gray-200 border-2 rounded-lg text-md pl-2 h-9'
+                onChangeText={(airport) => setAirport(airport)} 
+                value={airport}
+            />
+        </View>
+        <View className="mt-4 mb-4">
+            <Text className="font-bold text-lg mt-2">Preferred Pickup Location</Text>
+            <TextInput className='bg-white border-gray-200 border-2 rounded-lg text-md pl-2 h-9'
+                onChangeText={(preferredPickup) => setPreferredPickup(preferredPickup)}
+                value={preferredPickup}
+            />
+        </View>
 
         </View>
+            </ScrollView>
+            <View className="grid grid-cols-1 divide-y divide-gray-400 pl-8 pr-8">
+            <View></View>
+            <View className="flex-1 bg-white w-full mt-4 pl-8 pr-8 divide-gray-400 mb-2">
+                <TouchableOpacity className="bg-black w-full h-12 mt-4 rounded-md">
+                    <Text className="text-white font-bold text-center mt-4 ">FIND TRIP</Text>
+                </TouchableOpacity>
+            </View>
+            </View>
+        </KeyboardAvoidingView>
     </SafeAreaView>
   )
 }

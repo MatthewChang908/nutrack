@@ -75,7 +75,7 @@ const SignupScreen = () => {
         <TouchableOpacity onPress={() => navigation.navigate("Welcome")}>
             <Text className="ml-4 pt-2 font-medium text-l">Back</Text>
         </TouchableOpacity>
-        
+
         <Text className='text-4xl font-medium mt-8 ml-8'>Register</Text>
         <View className='flex-1 items-center'>
         
