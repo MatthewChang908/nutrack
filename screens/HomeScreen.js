@@ -14,11 +14,11 @@ const HomeScreen = () => {
             <Text>Hi, {auth.currentUser.displayName}</Text>
             
             <Text>You have no planned trips</Text>
-            <TouchableOpacity className='bg-blue-200 p-2 rounded-md'
+            <TouchableOpacity className='bg-blue-200 p-2 rounded-md mt-2'
             onPress={() => navigation.navigate("AddTrip")}>
                 <Text>Start a Trip</Text>
             </TouchableOpacity>
-            <TouchableOpacity className='bg-blue-200 p-2 rounded-md'
+            <TouchableOpacity className='bg-blue-200 p-2 rounded-md mt-2'
             onPress={() => navigation.navigate("DiscoverScreen")}>
                 <Text>Join an Existing Trip</Text>
             </TouchableOpacity>

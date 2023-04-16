@@ -10,8 +10,8 @@ const AddTripScreen = () => {
     const [preferredPickup, setPreferredPickup] = useState("")
 
     
-    const [date, setDate] = useState(new Date(1598051730000));
-    const [time, setTime] = useState(new Date(1598051730000));
+    const [date, setDate] = useState(new Date());
+    const [time, setTime] = useState(new Date());
     const [showDate, setShowDate] = useState(false);
     const [showTime, setShowTime] = useState(false);
   
@@ -42,8 +42,9 @@ const AddTripScreen = () => {
                 <Text>Back</Text>
             </TouchableOpacity>
         </View>
-
-        <TouchableOpacity onPress={handleShowDate}>
+        <Text>Date of Trip</Text>
+        <TouchableOpacity className='bg-gray-200'
+        onPress={handleShowDate}>
             <Text>{date.toLocaleDateString()}</Text>
         </TouchableOpacity>
         {showDate && (
@@ -54,12 +55,12 @@ const AddTripScreen = () => {
                 onChange={onChangeDate}
             />
         )}
-
-        <TouchableOpacity onPress={handleShowTime}>
-            <Text>Set Time</Text>
-            
+        <Text>Time of Trip</Text>
+        <TouchableOpacity className='bg-gray-200' 
+        onPress={handleShowTime}>
+            <Text>{time.toLocaleTimeString()}</Text>
         </TouchableOpacity>
-        <Text>{time.toLocaleString}</Text>
+        
         {showTime && (
                 <DateTimePicker
                 testID="datePicker"
@@ -70,17 +71,20 @@ const AddTripScreen = () => {
                 />
         )}
 
-        
-        <TextInput
-            placeholder="airport"
+        <Text>Airport</Text>
+        <TextInput className='bg-gray-200'
             onChangeText={(airport) => setAirport(airport)}
             value={airport}
         />
-        <TextInput
-            placeholder="preferredPickup"
+
+        <Text>Preferred Pickup Location</Text>
+        <TextInput className='bg-gray-200'
             onChangeText={(preferredPickup) => setPreferredPickup(preferredPickup)}
             value={preferredPickup}
         />
+        <TouchableOpacity>
+            <Text>Submit</Text>
+        </TouchableOpacity>
     </SafeAreaView>
   )
 }

@@ -7,8 +7,10 @@ import { createUserWithEmailAndPassword, onAuthStateChanged, updateProfile } fro
 const SignupScreen = () => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const [passwordConfirmation, setPasswordConfirmation] = useState("")
     const [name, setName] = useState("")
     const [phone, setPhone] = useState("")
+    const [allFieldsFilled, setAllFieldsFilled] = useState(false);
     const navigation = useNavigation()
 
     useEffect(() => {
@@ -22,14 +24,22 @@ const SignupScreen = () => {
         return unsubscribe
     }, [])
     const handleSignUp = () => {
-
+        if (password != passwordConfirmation) {
+            alert("Passwords do not match")
+            return
+        }
+        if (!allFieldsFilled) {
+            alert("Please fill out all fields")
+            return
+        }
         createUserWithEmailAndPassword(auth, email,password)
         .then((userCredentials) => {
             const user = userCredentials.user;
             const userId = user.uid;
             // set the display name
             updateProfile(auth.currentUser, {
-                displayName: name
+                displayName: name,
+                phoneNumber: phone,
             });
             // set the phone number
             database.ref('users/' + userId).set({
@@ -40,39 +50,66 @@ const SignupScreen = () => {
         .catch(error => alert(error.message))
     }
 
-  return (
-    <SafeAreaView>
-        <Text>SignupScreen</Text>
-        <TouchableOpacity onPress={() => navigation.navigate("Welcome")}>
-            <Text>Back</Text>
-        </TouchableOpacity>
-        <TextInput
-            placeholder="name"
-            onChangeText={(name) => setName(name)}
-            value={name}
-            />
-        <TextInput
-            placeholder="email"
-            onChangeText={(email) => setEmail(email)}
-            value={email}
-            />
-        <TextInput
-            placeholder="password"
-            onChangeText={(password) => setPassword(password)}
-            value={password}
-            />
-        <TextInput
-            placeholder="phone"
-            onChangeText={(phone) => setPhone(phone)}
-            value={phone}
-            />
-        <TouchableOpacity
-            onPress={handleSignUp}
-            >
-            <Text>Signup</Text>
-            </TouchableOpacity>
+    useEffect(() => {
+        if (email != "" && password != "" && passwordConfirmation != "" && name != "" && phone != "") {
+            setAllFieldsFilled(true)
+        } else {
+            setAllFieldsFilled(false)
+        }
+    }, [email, password, passwordConfirmation, name, phone])
 
+  return (
+    <SafeAreaView className='flex-1 bg-white'>
+        <TouchableOpacity onPress={() => navigation.navigate("Welcome")}>
+            <Text className="ml-4 pt-2 font-medium text-l">Back</Text>
+        </TouchableOpacity>
+        <Text className='text-4xl font-medium mt-8 ml-8'>Register</Text>
+        <View className='flex-1 items-center'>
+        
+        <View className='bg-white items-center w-10/12 mt-4'>
+            
+            <TextInput className='bg-white border-2 border-black w-full mt-4 pl-2 h-12'
+                placeholder="Name"
+                onChangeText={(name) => setName(name)}
+                value={name}
+            />
+            <TextInput className='h-12 w-full bg-white border-2 pl-2 mt-4 border-black'
+                placeholder="Email"
+                onChangeText={(email) => setEmail(email)}
+                value={email}
+                autoCapitalize='none'
+            />
+            <TextInput className='bg-white border-2 border-black w-full mt-4 pl-2 h-12'
+                placeholder="Password"
+                onChangeText={(password) => setPassword(password)}
+                value={password}
+                secureTextEntry
+                autoCapitalize='none'
+            />
+            <TextInput className='bg-white border-2 border-black w-full mt-4 pl-2 h-12'
+                placeholder="Confirm Password"
+                onChangeText={(passwordConfirmation) => setPasswordConfirmation(passwordConfirmation)}
+                value={passwordConfirmation}
+                secureTextEntry
+                autoCapitalize='none'
+            />
+            <TextInput className='bg-white border-2 border-black w-full mt-4 pl-2 h-12'
+                placeholder="Phone"
+                onChangeText={(phone) => setPhone(phone)}
+                value={phone}
+                keyboardType='numeric'
+            />
+            
+            <TouchableOpacity onPress={handleSignUp} className="bg-black w-full h-12 mt-4 rounded-md">
+                <Text className="text-white font-bold text-center mt-4">REGISTER</Text>
+            </TouchableOpacity>
+        </View>
+        </View>
+
+            
     </SafeAreaView>
+
+    
   )
 }
 
