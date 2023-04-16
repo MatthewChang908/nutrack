@@ -36,13 +36,16 @@ const AddTripScreen = () => {
     };
 
   return (
-    <SafeAreaView>
-        <View>
+    <SafeAreaView className="flex-1 bg-white">
+      
             <TouchableOpacity onPress={() => navigation.navigate("Home")}>
-                <Text>Back</Text>
+                 <Text className="ml-4 pt-2 font-medium text-l">Back</Text>
             </TouchableOpacity>
-        </View>
-        <Text>Date of Trip</Text>
+  
+            <Text className='text-4xl font-medium mt-8 ml-8'>Join a Trip</Text>
+        
+        <View className='bg-white items-left w-10/12 mt-4 ml-8'> 
+        <Text className="font-bold text-xl">Date of Trip</Text>
         <TouchableOpacity className='bg-gray-200'
         onPress={handleShowDate}>
             <Text>{date.toLocaleDateString()}</Text>
@@ -55,6 +58,9 @@ const AddTripScreen = () => {
                 onChange={onChangeDate}
             />
         )}
+
+     
+
         <Text>Time of Trip</Text>
         <TouchableOpacity className='bg-gray-200' 
         onPress={handleShowTime}>
@@ -82,9 +88,12 @@ const AddTripScreen = () => {
             onChangeText={(preferredPickup) => setPreferredPickup(preferredPickup)}
             value={preferredPickup}
         />
+
         <TouchableOpacity>
             <Text>Submit</Text>
         </TouchableOpacity>
+
+        </View>
     </SafeAreaView>
   )
 }

@@ -5,27 +5,34 @@ import { HomeIcon, UserCircleIcon, MagnifyingGlassCircleIcon } from "react-nativ
 
 const DiscoverScreen = () => {
     const navigation = useNavigation()
-  return (
-    
+  
+  
+    return (
 
-    <SafeAreaView className='flex-row justify-between px-10'>
-        <TouchableOpacity className='items-center'
-        onPress={() => navigation.navigate("DiscoverScreen")}>
-            <UserCircleIcon />
-            <Text>Find Group</Text>
-        </TouchableOpacity>
-        
-        <TouchableOpacity className='items-center'
-        onPress={() => navigation.navigate("Home")}>
-            <UserCircleIcon />
-            <Text>Home</Text>
-        </TouchableOpacity>
+    <SafeAreaView className= 'flex-1 justify-between'>
+        <View>
+            <Text>DiscoverScreen</Text>
+        </View>
 
-        <TouchableOpacity className='items-center'
-        onPress={() => navigation.navigate("Profile")}>
-            <UserCircleIcon />
-            <Text>Profile</Text>
-        </TouchableOpacity>
+        <View className = 'flex-row justify-between px-10'>
+            <TouchableOpacity className='items-center'
+            onPress={() => navigation.navigate("DiscoverScreen")}>
+                <MagnifyingGlassCircleIcon />
+                <Text>Find Group</Text>
+            </TouchableOpacity>
+            
+            <TouchableOpacity className='items-center'
+            onPress={() => navigation.navigate("Home")}>
+                <HomeIcon />
+                <Text>Home</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity className='items-center'
+            onPress={() => navigation.navigate("Profile")}>
+                <UserCircleIcon />
+                <Text>Profile</Text>
+            </TouchableOpacity>
+        </View>
     </SafeAreaView>
 
     
