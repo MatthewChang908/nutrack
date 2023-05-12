@@ -12,7 +12,7 @@ const TripCard = (props) => {
     const time = date.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
     const id = props.id;
 
-    const [show, setShow] = useState(false)
+    const [show, setShow] = useState(true)
     const navigation = useNavigation();
     const handlePress = () => {
         setShow(!show)
@@ -64,20 +64,30 @@ const TripCard = (props) => {
 
 
   return (
-    <View className='border mb-2'>
+    <View className='border-2 mb-2 px-4 py-2 rounded-2xl w-full'>
         <TouchableOpacity onPress={() => handlePress()}>
-            <Text>Destination: {props.destination}</Text>
-            <Text>Pickup Location: {props.pickup}</Text>
-            <Text>Leaving On: {month}/{day} at {time}</Text>
+            <View className='flex-row flex justify-between'>
+                <Text className='text-lg text-left font-normal'>
+                    3pm @ {props.destination}
+                </Text>
+                <Text className='text-lg text-right font-light'>
+                    1 Seat Left
+                </Text>
+            </View>
+            <View className='flex-row justify-between mx-4 my-4'>
+                <Text>Matthew Chang</Text>
+                <Text>Jason Lu</Text>
+                <Text>Kellen Lai</Text>
+            </View>
         </TouchableOpacity>
-        {props.hasButton && show && (
+        <View className="flex justify-center items-center mt-2">
             <TouchableOpacity
-            onPress={() => {handleJoinGroup();handleSendSms()}}
+                className="w-1/3 bg-black py-2 rounded"
+                onPress={() => {handleJoinGroup()}}
             >
-                <Text>Join Trip</Text>
+                <Text className="text-white font-bold text-center">Join</Text>
             </TouchableOpacity>
-        )}
-      
+        </View>
     </View>
   )
 }

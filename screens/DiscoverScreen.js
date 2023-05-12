@@ -6,16 +6,14 @@ import {doc, getDoc, updateDoc, collection, query, where, getDocs, Timestamp} fr
 import { auth, db } from '../firebase'
 import TripCard from '../components/TripCard';
 
-const DiscoverScreen = ({route}) => {
-    //default values for {date, time}
-    // const [date, setDate] = useState(new Date());
-    // const [time, setTime] = useState(new Date());
-    // if (route.params){
-    //     setDate(route.params.date);
-    //     setTime(route.params.time);
-    // }
+const DiscoverScreen = ({ route }) => {
 
-    const navigation = useNavigation()
+    // Get the params from the Add Trip Scren
+    const { time, destination, pickup } = route.params;
+    console.log(time)
+    console.log(destination)
+    console.log(pickup)
+    const navigation = useNavigation();
     const userId = auth.currentUser.uid;
     const [trips, setTrips] = useState([]);
 
@@ -34,9 +32,22 @@ const DiscoverScreen = ({route}) => {
     //   date.setHours(hours + 1, minutes, 0, 0) // set the end time to one hour after the specified time
     // );
 
-    const getData = async () => {
-      const querySnapshot = await getDocs(collection(db, "Trips"));
+    const getMatchingTrips = async () => {
+      // create reference to the Trips collection
+      const tripsRef = collection(db, "Trips");
+
+      // Create a query object based on search criteria
+      // TODO: consider when criteria are optional
+      // TODO: consider adding conditional to not display trips that don't have available seats
+      const q = query(
+        tripsRef, 
+        where("destination", "==", destination)
+      );
+
       const newTrips = [];
+
+      // Execute the query
+      const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
         // doc.data() is never undefined for query doc snapshots
         console.log(doc.id, " => ", doc.data());
@@ -69,7 +80,7 @@ const DiscoverScreen = ({route}) => {
 
  
     useEffect(() => {
-        getData().then(() => {
+        getMatchingTrips().then(() => {
             console.log('Trips:', trips);
         }).catch((error) => {
           console.error('Error getting data:', error);
@@ -89,25 +100,30 @@ const DiscoverScreen = ({route}) => {
     <SafeAreaView className= 'flex-1 justify-between'>
         <View>
           <View>
-            <Text className='text-4xl font-bold text-center mt-4'>Discover</Text>
+            <Text className='text-2xl font-normal text-center mt-4'>
+              {pickup} to {destination}
+            </Text>
+            <Text className='text-xs font-normal text-center'>
+              2:30-3:30pm Thu May 11
+            </Text>
           </View>
-            <ScrollView className='w-10/12'>
-              {trips.map((trip, index) => {
-                  const { seconds, nanoseconds } = trip.time;
-                  const timeString = `${seconds}.${nanoseconds}`;
-                  return (
-                    <View className='w-full'>
-                      <TripCard className=''
-                      key={index}
-                      destination={trip.destination}
-                      pickup={trip.pickup}
-                      time={timeString}
-                      id={trip.id}
-                      />
-                    </View>
-                  );
-                  })}
-            </ScrollView>
+          <ScrollView className='w-full mt-6'>
+            {trips.map((trip, index) => {
+                const { seconds, nanoseconds } = trip.time;
+                const timeString = `${seconds}.${nanoseconds}`;
+                return (
+                  <View className='items-center mx-6 mt-4'>
+                    <TripCard
+                    key={index}
+                    destination={trip.destination}
+                    pickup={trip.pickup}
+                    time={timeString}
+                    id={trip.id}
+                    />
+                  </View>
+                );
+                })}
+          </ScrollView>
         </View>
 
         <View className="flex-row justify-between px-10">

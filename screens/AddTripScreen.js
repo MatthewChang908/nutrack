@@ -11,7 +11,7 @@ const AddTripScreen = () => {
 
     
     const [date, setDate] = useState(new Date());
-    const [time, setTime] = useState(new Date());
+    const [time, setTime] = useState(new Date("2023-05-12"));
     const [dateString, setDateString] = useState("");
     const [timeString, setTimeString] = useState("");
     const [showDate, setShowDate] = useState(false);
@@ -108,9 +108,15 @@ const AddTripScreen = () => {
             <View className="grid grid-cols-1 divide-y divide-gray-400 pl-8 pr-8">
             <View></View>
             <View className="flex-1 bg-white w-full mt-4 pl-8 pr-8 divide-gray-400 mb-2">
-                <TouchableOpacity onPress={() => navigation.navigate("DiscoverScreen", {date: date, time: time})}
+                <TouchableOpacity onPress={() => {
+                    navigation.navigate("DiscoverScreen", { 
+                        time: timeString,
+                        destination: airport,
+                        pickup: preferredPickup,
+                    })}
+                }
                 className="bg-black w-full h-12 mt-4 rounded-md">
-                    <Text className="text-white font-bold text-center mt-4 ">FIND TRIP</Text>
+                    <Text className="text-white font-bold text-center mt-4">FIND TRIP</Text>
                 </TouchableOpacity>
             </View>
             </View>
