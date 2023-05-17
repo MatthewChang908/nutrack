@@ -41,7 +41,9 @@ const DiscoverScreen = ({ route }) => {
       // TODO: consider adding conditional to not display trips that don't have available seats
       const q = query(
         tripsRef, 
-        where("destination", "==", destination)
+        where("destination", "==", destination),
+        where("time", "==", time),
+        where("pickup", "==", pickup),
       );
 
       const newTrips = [];
