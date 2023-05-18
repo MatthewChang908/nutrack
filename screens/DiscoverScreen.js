@@ -2,17 +2,14 @@ import { View, Text, SafeAreaView, TextInput, TouchableOpacity, ScrollView } fro
 import React, {useState, useEffect} from 'react'
 import { useNavigation } from '@react-navigation/core'
 import { HomeIcon, UserCircleIcon, MagnifyingGlassCircleIcon } from "react-native-heroicons/outline";
-import {doc, getDoc, updateDoc, collection, query, where, getDocs, Timestamp} from "firebase/firestore"
-import { auth, db } from '../firebase'
+import {doc, getDoc, updateDoc, collection, query, where, getDocs, Timestamp, onSnapshot} from "firebase/firestore"
+import { auth, db, getMatchingTrips } from '../firebase'
 import TripCard from '../components/TripCard';
 
 const DiscoverScreen = ({ route }) => {
 
-    // Get the params from the Add Trip Scren
-    const { time, destination, pickup } = route.params;
-    console.log(time)
-    console.log(destination)
-    console.log(pickup)
+    // Get the params from the Add Trip Screen
+    const { destination, pickup } = route.params;
     const navigation = useNavigation();
     const userId = auth.currentUser.uid;
     const [trips, setTrips] = useState([]);
@@ -32,70 +29,95 @@ const DiscoverScreen = ({ route }) => {
     //   date.setHours(hours + 1, minutes, 0, 0) // set the end time to one hour after the specified time
     // );
 
-    const getMatchingTrips = async () => {
-      // create reference to the Trips collection
-      const tripsRef = collection(db, "Trips");
+    // const getMatchingTrips = async () => {
+    //   // create reference to the Trips collection
+    //   const tripsRef = collection(db, "Trips");
 
-      // Create a query object based on search criteria
-      // TODO: consider when criteria are optional
-      // TODO: consider adding conditional to not display trips that don't have available seats
-      const q = query(
-        tripsRef, 
-        where("destination", "==", destination),
-        where("time", "==", time),
-        where("pickup", "==", pickup),
-      );
-
-      const newTrips = [];
-
-      // Execute the query
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) => {
-        // doc.data() is never undefined for query doc snapshots
-        console.log(doc.id, " => ", doc.data());
-        // add doc.data() to newTrips
-        newTrips.push({ id: doc.id, ...doc.data() });
-
-      });
-      // update the state with newTrips
-      setTrips(newTrips);
-    };
-
-    // const getDataWithinTime = async () => {
-    //   // Query the collection for documents within the specified time range
+    //   // Create a query object based on search criteria
+    //   // TODO: consider when criteria are optional
+    //   // TODO: consider adding conditional to not display trips that don't have available seats
     //   const q = query(
-    //     collection(db, "Trips"),
-    //     where("time", ">=", startTimestamp),
-    //     where("time", "<", endTimestamp)
+    //     tripsRef, 
+    //     where("destination", "==", destination),
+    //     // where("time", "==", time),
+    //     // where("pickup", "==", pickup),
     //   );
-    //   const querySnapshot = await getDocs(q);
+
     //   const newTrips = [];
-    //   querySnapshot.forEach((doc) => {
-    //     // doc.data() is never undefined for query doc snapshots
-    //     console.log(doc.id, " => ", doc.data());
-    //     // add doc.data() to newTrips
-    //     newTrips.push({ id: doc.id, ...doc.data() });
+
+    //   // Execute the query
+    //   // Using real time updates with listener
+    //   const unsubscribe = onSnapshot(q, (querySnapshot) => {
+    //     querySnapshot.forEach((doc) => {
+    //       // doc.data() is never undefined for query doc snapshots
+    //       // add doc.data() to newTrips
+    //       newTrips.push({ id: doc.id, ...doc.data() });
+    //     });
     //   });
+
     //   // update the state with newTrips
-    //   setTrips(newTrips);
+    //   return newTrips;
     // };
 
- 
-    useEffect(() => {
-        getMatchingTrips().then(() => {
-            console.log('Trips:', trips);
-        }).catch((error) => {
-          console.error('Error getting data:', error);
-        });
-      }, []);
+    const getRiders = (async (all_trips) => {
 
-    // const printDateTime = () => {
-    //   console.log('Start Date:', day);
-    //   console.log('End Date:', hours, minutes);
-    // }
-    // const printTrips  = () => {
-    //   console.log('Trips:', trips);
-    // }
+      //Promise.all is used to await the completion of all the asynchronous operations within the map functions. 
+      //The outer Promise.all wraps the mapping of trips, and the inner Promise.all wraps the mapping of trip.users.
+      const updatedTrips = await Promise.all(
+        all_trips.map(async (trip) => {
+          // create a copy of the current trip
+          const copy = {...trip};
+          const riders = [];
+
+          // Find the names of the users that joined the trip
+          // note for each doesn't work with async, map or traditional for loop works
+          await Promise.all(
+            trip.users.map(async (userId) => {
+              const userDocRef = doc(db, "Users", userId);
+              const docSnapshot = await getDoc(userDocRef);
+
+              if (docSnapshot.exists()) {
+                riders.push(docSnapshot.data());
+              }
+            })
+          );
+
+          copy.riders = riders
+          return copy;
+        })
+      );
+
+      return updatedTrips;
+    });
+
+ 
+  useEffect(() => {
+    const unsubscribe = getMatchingTrips(destination, pickup, 
+      async (snapshot) => {
+        const newTrips = [];
+        await Promise.all(
+          // might be better to just store user names in trips documents to improve performance
+          snapshot.docs.map(async (doc) => {
+            const riders = [];
+            await Promise.all(
+              doc.data().riders.map(async (rider) => {
+                const docSnapshot = await getDoc(rider);
+
+                if (docSnapshot.exists()) {
+                  riders.push({id: docSnapshot.id, ...docSnapshot.data()});
+                }
+              })
+            );
+            newTrips.push({ id: doc.id, ...doc.data(), riders: riders})
+          })
+        );
+        setTrips(newTrips);
+      },
+      (error) => setError('Error fetching matching trips')
+    );
+
+    return unsubscribe;
+  }, [destination, pickup, setTrips]);
 
     return (
 
@@ -110,17 +132,16 @@ const DiscoverScreen = ({ route }) => {
             </Text>
           </View>
           <ScrollView className='w-full mt-6'>
-            {trips.map((trip, index) => {
-                const { seconds, nanoseconds } = trip.time;
-                const timeString = `${seconds}.${nanoseconds}`;
+            {trips.map((trip) => {
+                // const { seconds, nanoseconds } = trip.time;
+                // const timeString = `${seconds}.${nanoseconds}`;
                 return (
-                  <View className='items-center mx-6 mt-4'>
+                  <View className='items-center mx-6 mt-4' key={trip.id}>
                     <TripCard
-                    key={index}
-                    destination={trip.destination}
-                    pickup={trip.pickup}
-                    time={timeString}
-                    id={trip.id}
+                      destination={trip.destination}
+                      pickup={trip.pickup}
+                      riders={trip.riders}
+                      // time={time}
                     />
                   </View>
                 );

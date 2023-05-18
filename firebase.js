@@ -2,7 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getDatabase } from "firebase/database";
-import { getFirestore } from "firebase/firestore";
+import { getFirestore, collection, query, where, onSnapshot } from "firebase/firestore";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -26,4 +26,23 @@ const database = getDatabase(app);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-export {auth, database, app, db};
+// function for getting trips based on attributes
+const getMatchingTrips = (destination, pickup, snapshot, error) => {
+    // create reference to the Trips collection
+    const tripsRef = collection(db, "Trips");
+
+    // Create a query object based on search criteria
+    // TODO: consider when criteria are optional
+    // TODO: consider adding conditional to not display trips that don't have available seats
+    const q = query(
+        tripsRef, 
+        where("destination", "==", destination),
+        // where("time", "==", time),
+        // where("pickup", "==", pickup),
+    );
+
+    return onSnapshot(q, snapshot, error);
+}
+
+
+export {auth, database, app, db, getMatchingTrips};

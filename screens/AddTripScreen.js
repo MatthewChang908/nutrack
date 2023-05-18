@@ -28,7 +28,6 @@ const AddTripScreen = () => {
         setDate(selectedDate);
     };
   
-  
     const handleShowDate = () => {
         setShowDate(!showDate);
     };
@@ -110,7 +109,6 @@ const AddTripScreen = () => {
             <View className="flex-1 bg-white w-full mt-4 pl-8 pr-8 divide-gray-400 mb-2">
                 <TouchableOpacity onPress={() => {
                     navigation.navigate("DiscoverScreen", { 
-                        time: timeString,
                         destination: airport,
                         pickup: preferredPickup,
                     })}
