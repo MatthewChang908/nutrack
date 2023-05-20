@@ -68,6 +68,26 @@ const AddTripScreen = () => {
     return pattern.test(input);
     };
 
+    const validateAll = () => {
+        if (!validateDateFormat(dateString)) {
+            alert("Please enter a valid date in the format mm/dd/yyyy");
+            return false;
+        }
+        if (!validateTimeFormat(timeString)) {
+            alert("Please enter a valid time in the format hh:mm AM/PM");
+            return false;
+        }
+        if (pickupLocation === "None") {
+            alert("Please select a pickup location");
+            return false;
+        }
+        if (airport === "None") {
+            alert("Please select an airport");
+            return false;
+        }
+        return true;
+    }
+    
     const [flexibility, setFlexibility] = useState(0);
 
   return (
