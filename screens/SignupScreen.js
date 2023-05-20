@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity, SafeAreaView } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, SafeAreaView, KeyboardAvoidingView, Image } from 'react-native'
 import React, {useState, useEffect} from 'react'
 import { auth, database, db } from "../firebase"
 import { useNavigation } from '@react-navigation/core'
@@ -13,6 +13,8 @@ const SignupScreen = () => {
     const [password, setPassword] = useState("")
     const [passwordConfirmation, setPasswordConfirmation] = useState("")
     const [name, setName] = useState("")
+    const [firstName, setFirstName] = useState("")
+    const [lastName, setLastName] = useState("")
     const [phone, setPhone] = useState("")
     const [allFieldsFilled, setAllFieldsFilled] = useState(false);
     const navigation = useNavigation()
@@ -34,6 +36,10 @@ const SignupScreen = () => {
         }
         if (!allFieldsFilled) {
             alert("Please fill out all fields")
+            return
+        }
+        if (!/@u\.northwestern\.edu$|@northwestern\.edu$/.test(email)){
+            alert("Please use your Northwestern email")
             return
         }
         createUserWithEmailAndPassword(auth, email,password)
@@ -72,53 +78,69 @@ const SignupScreen = () => {
 
   return (
     <SafeAreaView className='flex-1 bg-white'>
-        <TouchableOpacity onPress={() => navigation.navigate("Welcome")}>
-            <Text className="ml-4 pt-2 font-medium text-l">Back</Text>
-        </TouchableOpacity>
-
-        <Text className='text-4xl font-medium mt-8 ml-8'>Register</Text>
-        <View className='flex-1 items-center'>
-        
-        <View className='bg-white items-center w-10/12 mt-4'>
-            
-            <TextInput className='bg-white border-2 border-black w-full mt-4 pl-2 h-12'
-                placeholder="Name"
-                onChangeText={(name) => setName(name)}
-                value={name}
-            />
-            <TextInput className='h-12 w-full bg-white border-2 pl-2 mt-4 border-black'
-                placeholder="Email"
-                onChangeText={(email) => setEmail(email)}
-                value={email}
-                autoCapitalize='none'
-            />
-            <TextInput className='bg-white border-2 border-black w-full mt-4 pl-2 h-12'
-                placeholder="Password"
-                onChangeText={(password) => setPassword(password)}
-                value={password}
-                secureTextEntry
-                autoCapitalize='none'
-            />
-            <TextInput className='bg-white border-2 border-black w-full mt-4 pl-2 h-12'
-                placeholder="Confirm Password"
-                onChangeText={(passwordConfirmation) => setPasswordConfirmation(passwordConfirmation)}
-                value={passwordConfirmation}
-                secureTextEntry
-                autoCapitalize='none'
-            />
-            <TextInput className='bg-white border-2 border-black w-full mt-4 pl-2 h-12'
-                placeholder="Phone"
-                onChangeText={(phone) => setPhone(phone)}
-                value={phone}
-                keyboardType='numeric'
-            />
-            
-            <TouchableOpacity onPress={handleSignUp} className="bg-black w-full h-12 mt-4 rounded-md">
-                <Text className="text-white font-bold text-center mt-4">REGISTER</Text>
+        <KeyboardAvoidingView behavior='padding' className='flex-1'>
+            <TouchableOpacity className='m-8 mb-0'onPress={() => navigation.navigate("Welcome")}>
+                <Image source={require('../assets/back.png')}/>
             </TouchableOpacity>
-        </View>
-        </View>
 
+            <Text className='text-4xl font-medium mt-8 ml-8'>Register</Text>
+
+            <View className='w-10/12 self-center'>
+                <View className='bg-white mt-4'>
+                    <View className='flex-row justify-between'>
+                        <View className='w-5/12'>
+                            <Text>First Name</Text>
+                            <TextInput className='bg-white border-2 border-black pl-2 rounded-md h-12 my-2'
+                                onChangeText={(name) => setFirstName(name)}
+                                value={firstName}
+                            />
+                        </View>
+                        <View className='w-5/12 bg-gray-10'>
+                            <Text>Last Name</Text>
+                            <TextInput className='bg-white border-2 border-black pl-2 rounded-md h-12 mt-2 mb-4'
+                                onChangeText={(name) => setLastName(name)}
+                                value={lastName}
+                            />
+                        </View>
+                    </View>
+                
+                    <Text>Northwestern Email</Text> 
+                    <TextInput className='h-12 w-full bg-white border-2 pl-2 border-black my-2 rounded-md mb-4'
+                        onChangeText={(email) => setEmail(email)}
+                        value={email}
+                        autoCapitalize='none'
+                    />
+
+                    <Text>Password</Text>
+                    <TextInput className='bg-white border-2 border-black w-full pl-2 h-12 my-2 rounded-md mb-4'
+                        onChangeText={(password) => setPassword(password)}
+                        value={password}
+                        secureTextEntry
+                        autoCapitalize='none'
+                    />
+
+                    <Text>Confirm Password</Text>
+                    <TextInput className='bg-white border-2 border-black w-full pl-2 h-12 my-2 rounded-md mb-4'
+                        onChangeText={(passwordConfirmation) => setPasswordConfirmation(passwordConfirmation)}
+                        value={passwordConfirmation}
+                        secureTextEntry
+                        autoCapitalize='none'
+                    />
+
+                    <Text>Phone Number</Text>
+                    <TextInput className='bg-white border-2 border-black w-full pl-2 h-12 my-2 rounded-md mb-4'
+                        onChangeText={(phone) => setPhone(phone)}
+                        value={phone}
+                        keyboardType='numeric'
+                    />
+                    
+                    <TouchableOpacity onPress={handleSignUp} className="bg-black w-full h-12 mt-4 rounded-md">
+                        <Text className="text-white font-bold text-center mt-4">REGISTER</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
+
+        </KeyboardAvoidingView>
             
     </SafeAreaView>
 

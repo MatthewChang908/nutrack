@@ -110,30 +110,35 @@ const HomeScreen = () => {
             className="flex justify-between w-80 h-40 ml-10 mt-32 mb-16"
           />
         )}
+        <View>
+        <TouchableOpacity 
+            onPress={() => navigation.navigate('AddTrip')} 
+            className="bg-black w-10/12 self-center h-12 mt-4 rounded-md justify-center">
+            <Text className='text-white text-center text-lg'>Find Trip</Text>
+        </TouchableOpacity>
 
+        </View>
         <View className='flex-row justify-between px-10'>
+            <TouchableOpacity
+            className="items-center w-1/4"
+            onPress={() => navigation.navigate("Home")}>
+            <HomeIcon color={"#000000"} size={40} />
+            <Text>Home</Text>
+            </TouchableOpacity>
+
             <TouchableOpacity className='items-center w-1/4'
-             onPress={() => navigation.navigate("DiscoverScreen")}>
+                onPress={() => navigation.navigate("DiscoverScreen")}>
                 <MagnifyingGlassCircleIcon color={"#000000"} size={40}/>
                 <Text>Find Group</Text>
             </TouchableOpacity>
 
-        <TouchableOpacity
-          className="items-center w-1/4"
-          onPress={() => navigation.navigate("Home")}
-        >
-          <HomeIcon color={"#000000"} size={40} />
-          <Text>Home</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          className="items-center w-1/4"
-          onPress={() => navigation.navigate("Profile")}
-        >
-          <UserCircleIcon color={"#000000"} size={40} />
-          <Text>Profile</Text>
-        </TouchableOpacity>
-      </View>
+            <TouchableOpacity
+            className="items-center w-1/4"
+            onPress={() => navigation.navigate("Profile")}>
+            <UserCircleIcon color={"#000000"} size={40} />
+            <Text>Profile</Text>
+            </TouchableOpacity>
+        </View>
     </SafeAreaView>
   );
 };
