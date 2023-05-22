@@ -4,6 +4,7 @@ import {
   Text,
   TouchableOpacity,
   SafeAreaView,
+  ScrollView,
 } from "react-native";
 import React, { useCallback, useEffect, useState } from "react";
 import { auth, db } from "../firebase";
@@ -20,6 +21,7 @@ import {
 import TripCard from '../components/TripCard';
 
 const HomeScreen = () => {
+    const { destination, pickup } = useState();
     const navigation = useNavigation();
     const userId = auth.currentUser.uid;
     const [hasTrips, setHasTrips] = useState(false);
