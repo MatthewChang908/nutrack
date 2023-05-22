@@ -95,29 +95,35 @@ const HomeScreen = () => {
         )}
         {!hasTrips && (
             <View className='flex-1 justify-center items-center'>
-                <Text>Hi, {auth.currentUser.displayName}</Text>
+                <Text className="text-black text-2xl font-lg">
+                    Welcome {auth.currentUser.displayName}!
+                </Text>
                 
-                <Text className="text-black text-2xl font-lg">You have no planned trips</Text>
-                <TouchableOpacity className='bg-white w-10/12 h-12 mt-4 rounded-md items-center justify-center  border-black border-2'
-                onPress={() => navigation.navigate("AddTrip")}>
-                    <Text className="text-black text-lg font-lg">Join/Create a Trip</Text>
+                <Text>
+                    You have no planned trips
+                </Text>
+
+                <TouchableOpacity 
+                    className='bg-black w-10/12 self-center h-12 mt-4 rounded-md justify-center'
+                    onPress={() => navigation.navigate("AddTrip")}>
+                    <Text className="text-white text-center text-xl font-lg">
+                        Join / Create
+                    </Text>
                 </TouchableOpacity>
+
+                {/* <Image
+                source={require("../assets/map.png")}
+                className="flex justify-between w-80 h-40 ml-10 mt-32 mb-16"
+                /> */}
+
+                {/* <TouchableOpacity 
+                    onPress={() => navigation.navigate('AddTrip')} 
+                    className="bg-black w-10/12 self-center h-12 mt-4 rounded-md justify-center">
+                    <Text className='text-white text-center text-lg'>Find Trip</Text>
+                </TouchableOpacity>                 */}
             </View>
         )}
-        {!hasTrips && (
-            <Image
-            source={require("../assets/map.png")}
-            className="flex justify-between w-80 h-40 ml-10 mt-32 mb-16"
-          />
-        )}
-        <View>
-        <TouchableOpacity 
-            onPress={() => navigation.navigate('AddTrip')} 
-            className="bg-black w-10/12 self-center h-12 mt-4 rounded-md justify-center">
-            <Text className='text-white text-center text-lg'>Find Trip</Text>
-        </TouchableOpacity>
 
-        </View>
         <View className='flex-row justify-between px-10'>
             <TouchableOpacity
             className="items-center w-1/4"
@@ -126,11 +132,11 @@ const HomeScreen = () => {
             <Text>Home</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity className='items-center w-1/4'
+            {/* <TouchableOpacity className='items-center w-1/4'
                 onPress={() => navigation.navigate("DiscoverScreen")}>
                 <MagnifyingGlassCircleIcon color={"#000000"} size={40}/>
                 <Text>Find Group</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
 
             <TouchableOpacity
             className="items-center w-1/4"
