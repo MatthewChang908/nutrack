@@ -69,12 +69,16 @@ const HomeScreen = () => {
 
   return (
     <SafeAreaView className='flex-1 justify-between bg-white'>
-        {hasTrips && (
+        {!hasTrips && (
             <View>
-                <View className='flex mt-64 items-center justify-center'>
-                <Text className='text-black text-4xl font-lg'>Hi, {auth.currentUser.displayName}</Text>
-                
-                <Text className="text-black text-2xl font-lg">Here are your upcoming trips</Text>
+                <View className='flex mt-8 items-center justify-center'>
+                    <Text className='text-black text-2xl font-lg'>
+                        Hi {auth.currentUser.displayName}
+                    </Text>
+                    
+                    <Text className="text-black text-l font-lg">
+                        Your Trips
+                    </Text>
                 </View>
                 <View className='mt-4'>
                     {trips.map((trip, index) => {
@@ -93,10 +97,10 @@ const HomeScreen = () => {
                 </View>
             </View>
         )}
-        {!hasTrips && (
-            <View className='flex-1 justify-center items-center'>
+        {hasTrips && (
+            <View className='flex-1 mb-80 justify-center items-center'>
                 <Text className="text-black text-2xl font-lg">
-                    Welcome {auth.currentUser.displayName}!
+                    Hi {auth.currentUser.displayName}!
                 </Text>
                 
                 <Text>
@@ -126,7 +130,7 @@ const HomeScreen = () => {
 
         <View className='flex-row justify-between px-10'>
             <TouchableOpacity
-            className="items-center w-1/4"
+            className="items-center w-1/3"
             onPress={() => navigation.navigate("Home")}>
             <HomeIcon color={"#000000"} size={40} />
             <Text>Home</Text>
@@ -139,7 +143,7 @@ const HomeScreen = () => {
             </TouchableOpacity> */}
 
             <TouchableOpacity
-            className="items-center w-1/4"
+            className="items-center w-1/3"
             onPress={() => navigation.navigate("Profile")}>
             <UserCircleIcon color={"#000000"} size={40} />
             <Text>Profile</Text>
