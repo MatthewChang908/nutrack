@@ -25,19 +25,19 @@ const HomeScreen = () => {
     const [hasTrips, setHasTrips] = useState(false);
     const [trips, setTrips] = useState([]);
 
-    const getTripId = useCallback(async () => {
-        //docRef is the reference for the document, db = firestore, 
-        //'Users' is the collection, userId is the current user
+    // const getTripId = useCallback(async () => {
+    //     //docRef is the reference for the document, db = firestore, 
+    //     //'Users' is the collection, userId is the current user
          
         
-        if (docSnap.exists()) {
-            const tripIds = docSnap.data().trips;
-            setHasTrips(trips.length > 0);
-            setTripIds(tripIds);
-            console.log(tripIds);
-            return tripIds;
-        }
-    });
+    //     if (docSnap.exists()) {
+    //         const tripIds = docSnap.data().trips;
+    //         setHasTrips(trips.length > 0);
+    //         setTripIds(tripIds);
+    //         console.log(tripIds);
+    //         return tripIds;
+    //     }
+    // });
 
     const getTrips = async () => {
         // Get all the trip that the user has

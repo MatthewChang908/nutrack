@@ -3,7 +3,7 @@ import React, {useState, useEffect} from 'react'
 import {doc, getDoc, updateDoc, collection, query, where, getDocs} from "firebase/firestore"
 import { auth, db } from '../firebase'
 import { useNavigation } from '@react-navigation/core'
-import sendSms from '../screens/sendSms'
+
 
 const TripCard = (props) => {
     const date = new Date(parseFloat(props.time) * 1000); // multiply by 1000 to convert seconds to milliseconds
@@ -22,10 +22,7 @@ const TripCard = (props) => {
     const numberslist = ['+17143254177','+14692376435'];
     len = numberslist.length;
     const handleSendSms = () => {
-    while (len != 0) {
-        sendSms(numberslist[len-1], smsBody);
-        len -= 1;
-    }
+
   }
 
     const handleJoinGroup = () => {
