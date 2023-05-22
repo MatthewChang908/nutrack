@@ -80,7 +80,11 @@ const HomeScreen = () => {
                         Your Trips
                     </Text>
                 </View>
-                <View className='mt-4'>
+
+
+
+                
+                {/* <View className='mt-4'>
                     {trips.map((trip, index) => {
                     const { seconds, nanoseconds } = trip.time;
                     const timeString = `${seconds}.${nanoseconds}`;
@@ -94,7 +98,7 @@ const HomeScreen = () => {
                         />
                     );
                     })}
-                </View>
+                </View> */}
             </View>
         )}
         {!hasTrips && (
