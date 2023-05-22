@@ -4,6 +4,7 @@ import {doc, getDoc, updateDoc, collection, query, where, getDocs} from "firebas
 import { auth, db } from '../firebase'
 import { useNavigation } from '@react-navigation/core'
 
+const TOTAL_SEATS = 4
 
 const TripCard = (props) => {
     const date = new Date(parseFloat(props.time) * 1000); // multiply by 1000 to convert seconds to milliseconds
@@ -21,9 +22,6 @@ const TripCard = (props) => {
     const smsBody = 'Another student has joined your Hitch group!\n\nYou can contact them with their number: xxxxxxxxxx\n\nHave a safe ride!';
     const numberslist = ['+17143254177','+14692376435'];
     len = numberslist.length;
-    const handleSendSms = () => {
-
-  }
 
     const handleJoinGroup = () => {
         storeData();
@@ -68,13 +66,13 @@ const TripCard = (props) => {
                     3pm @ {props.destination}
                 </Text>
                 <Text className='text-lg text-right font-light'>
-                    1 Seat Left
+                    {TOTAL_SEATS - props.riders.length} Seat Left
                 </Text>
             </View>
-            <View className='flex-row justify-between mx-4 my-4'>
-                <Text>Matthew Chang</Text>
-                <Text>Jason Lu</Text>
-                <Text>Kellen Lai</Text>
+            <View className='flex-row justify-between mx-4 my-4 no-wrap'>
+                {props.riders.map((rider) => {
+                    return <Text key={rider.id}>{rider.userName} </Text>
+                })}
             </View>
         </TouchableOpacity>
         <View className="flex justify-center items-center mt-2">
