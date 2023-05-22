@@ -69,7 +69,7 @@ const HomeScreen = () => {
 
   return (
     <SafeAreaView className='flex-1 justify-between bg-white'>
-        {!hasTrips && (
+        {hasTrips && (
             <View>
                 <View className='flex mt-8 items-center justify-center'>
                     <Text className='text-black text-2xl font-lg'>
@@ -97,8 +97,8 @@ const HomeScreen = () => {
                 </View>
             </View>
         )}
-        {hasTrips && (
-            <View className='flex-1 mb-80 justify-center items-center'>
+        {!hasTrips && (
+            <View className='flex-1 justify-center items-center'>
                 <Text className="text-black text-2xl font-lg">
                     Hi {auth.currentUser.displayName}!
                 </Text>
