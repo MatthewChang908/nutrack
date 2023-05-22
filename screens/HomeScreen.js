@@ -69,7 +69,7 @@ const HomeScreen = () => {
 
   return (
     <SafeAreaView className='flex-1 justify-between bg-white'>
-        {hasTrips && (
+        {!hasTrips && (
             <View>
                 <View className='flex mt-8 items-center justify-center'>
                     <Text className='text-black text-2xl font-lg'>
@@ -81,6 +81,33 @@ const HomeScreen = () => {
                     </Text>
                 </View>
 
+
+                <View>
+                <View>
+                    <Text className='text-2xl font-normal text-center mt-4'>
+                    {pickup} to {destination}
+                    </Text>
+                    <Text className='text-xs font-normal text-center'>
+                    2:30-3:30pm Thu May 11
+                    </Text>
+                </View>
+                <ScrollView className='w-full mt-6'>
+                    {trips.map((trip) => {
+                        // const { seconds, nanoseconds } = trip.time;
+                        // const timeString = `${seconds}.${nanoseconds}`;
+                        return (
+                        <View className='items-center mx-6 mt-4' key={trip.id}>
+                            <TripCard
+                            destination={trip.destination}
+                            pickup={trip.pickup}
+                            riders={trip.riders}
+                            // time={time}
+                            />
+                        </View>
+                        );
+                        })}
+                </ScrollView>
+                </View>
 
 
                 
@@ -101,7 +128,7 @@ const HomeScreen = () => {
                 </View> */}
             </View>
         )}
-        {!hasTrips && (
+        {hasTrips && (
             <View className='flex-1 justify-center items-center'>
                 <Text className="text-black text-2xl font-lg">
                     Hi {auth.currentUser.displayName}!
