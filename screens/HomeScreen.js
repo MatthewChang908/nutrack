@@ -19,6 +19,7 @@ import {
   MagnifyingGlassCircleIcon,
 } from "react-native-heroicons/outline";
 import TripCard from '../components/TripCard';
+import JoinedTripCard from '../components/JoinedTripCard'
 
 const HomeScreen = () => {
     const { destination, pickup } = useState();
@@ -26,7 +27,7 @@ const HomeScreen = () => {
     const userId = auth.currentUser.uid;
     const [hasTrips, setHasTrips] = useState(false);
     const [trips, setTrips] = useState([]);
-
+    console.log(auth.currentUser.uid)
     // const getTripId = useCallback(async () => {
     //     //docRef is the reference for the document, db = firestore, 
     //     //'Users' is the collection, userId is the current user
@@ -71,7 +72,7 @@ const HomeScreen = () => {
 
   return (
     <SafeAreaView className='flex-1 justify-between bg-white'>
-        {!hasTrips && (
+        {hasTrips && (
             <View>
                 <View className='flex mt-8 items-center justify-center'>
                     <Text className='text-black text-2xl font-lg'>
@@ -85,21 +86,21 @@ const HomeScreen = () => {
 
 
                 <View>
-                <View>
+                {/* <View>
                     <Text className='text-2xl font-normal text-center mt-4'>
                     {pickup} to {destination}
                     </Text>
                     <Text className='text-xs font-normal text-center'>
                     2:30-3:30pm Thu May 11
                     </Text>
-                </View>
-                <ScrollView className='w-full mt-6'>
+                </View> */}
+                <ScrollView className='w-full mt-4'>
                     {trips.map((trip) => {
                         // const { seconds, nanoseconds } = trip.time;
                         // const timeString = `${seconds}.${nanoseconds}`;
                         return (
                         <View className='items-center mx-6 mt-4' key={trip.id}>
-                            <TripCard
+                            <JoinedTripCard
                             destination={trip.destination}
                             pickup={trip.pickup}
                             riders={trip.riders}
@@ -130,7 +131,7 @@ const HomeScreen = () => {
                 </View> */}
             </View>
         )}
-        {hasTrips && (
+        {!hasTrips && (
             <View className='flex-1 justify-center items-center'>
                 <Text className="text-black text-2xl font-lg">
                     Hi {auth.currentUser.displayName}!
