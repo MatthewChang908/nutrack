@@ -94,7 +94,7 @@ const HomeScreen = () => {
                     2:30-3:30pm Thu May 11
                     </Text>
                 </View> */}
-                <ScrollView className='w-full mt-4'>
+                <ScrollView className='w-full h-full'>
                     {trips.map((trip) => {
                         // const { seconds, nanoseconds } = trip.time;
                         // const timeString = `${seconds}.${nanoseconds}`;
@@ -137,7 +137,7 @@ const HomeScreen = () => {
                     Hi {auth.currentUser.displayName}!
                 </Text>
                 
-                <Text>
+                <Text className="text-xl font-light mt-4 mb-3">
                     You have no planned trips
                 </Text>
 

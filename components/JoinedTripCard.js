@@ -75,7 +75,7 @@ const JoinedTripCard = (props) => {
         </View>
         <View className='flex justify-between items-center my-5 no-wrap w-full'>
             <Text className='text-lg font-normal'>
-                {TOTAL_SEATS - props.riders.length} Seat Left
+                {props.riders.length} / 4 Seat Filled
             </Text>
             {/* {props.riders.map((rider) => {
                 return <Text key={rider.id}>{rider.userName} </Text>
