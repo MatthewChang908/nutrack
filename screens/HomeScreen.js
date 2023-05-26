@@ -11,6 +11,8 @@ import { useNavigation } from "@react-navigation/core";
 import { 
     doc,
     getDoc,
+    updateDoc,
+    Timestamp
 } from "firebase/firestore";
 import {
   HomeIcon,
@@ -18,6 +20,7 @@ import {
   MagnifyingGlassCircleIcon,
 } from "react-native-heroicons/outline";
 import TripCard from '../components/TripCard';
+import firebase from 'firebase/app';
 
 const HomeScreen = () => {
     const navigation = useNavigation();
