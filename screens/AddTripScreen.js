@@ -87,6 +87,19 @@ const AddTripScreen = () => {
         }
         return true;
     }
+
+    const handleNavDiscover = () => {
+        if (validateAll()) {
+            navigation.navigate("DiscoverScreen", {
+                time: timeString,
+                flexibility: flexibility,
+                date: dateString,
+                pickup: pickupLocation,
+                destination: airport
+            });
+        }
+    }
+
     
     const [flexibility, setFlexibility] = useState(0);
 
@@ -193,7 +206,7 @@ const AddTripScreen = () => {
                         </View>
                     </View>
                 </View>
-                <TouchableOpacity  className="bg-black w-full self-center h-12 mt-4 rounded-md justify-center z-0">
+                <TouchableOpacity onPress={() => handleNavDiscover()} className="bg-black w-full self-center h-12 mt-4 rounded-md justify-center z-0">
                         <Text className='text-white text-center text-lg'>Find Trip</Text>
                 </TouchableOpacity>
             </View>

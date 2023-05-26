@@ -9,8 +9,10 @@ import TripCard from '../components/TripCard';
 const DiscoverScreen = ({ route }) => {
 
     // Get the params from the Add Trip Scren
-    const { time, destination, pickup } = route.params;
+    const { time, flexibility, date, destination, pickup } = route.params;
     console.log(time)
+    console.log(flexibility)
+    console.log(date)
     console.log(destination)
     console.log(pickup)
     const navigation = useNavigation();
