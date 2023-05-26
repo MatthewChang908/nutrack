@@ -10,13 +10,15 @@ import HomeScreen from './screens/HomeScreen';
 import AddTripScreen from './screens/AddTripScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import DiscoverScreen from './screens/DiscoverScreen';
+import CheckLoginScreen from './screens/CheckLoginScreen';
 
 export default function App() {
   const Stack = createNativeStackNavigator();
   const Tab = createBottomTabNavigator();
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+        <Stack.Navigator initialRouteName="CheckLogin">
+          <Stack.Screen options={{headerShown: false, gestureEnabled: false, }} name={"CheckLogin"} component={CheckLoginScreen}/>
         <Stack.Screen           
           options={{ headerShown: false, gestureEnabled: false }}
           name="Welcome" 

@@ -182,14 +182,14 @@ const AddTripScreen = () => {
                             <View className='flex-row'>
                                 <Image source={require('../assets/plusminus.png')} 
                                     className='w-5 h-5'/>
-                                <TextInput className='w-2/3'
+                                <TextInput className='w-1/2'
                                     placeholder='0'
                                     onChangeText={(flexibility) => setFlexibility(flexibility)}
                                     value={flexibility}
                                     keyboardType='numeric'
                                 />
                             </View>
-                            <Text>hrs</Text>
+                            <Text>mins</Text>
                         </View>
                     </View>
                 </View>
