@@ -16,6 +16,8 @@ import {
 } from "react-native-heroicons/outline";
 import { updateProfile } from "firebase/auth";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 const ProfileScreen = () => {
   const navigation = useNavigation();
   const userId = auth.currentUser.uid;
@@ -27,6 +29,7 @@ const ProfileScreen = () => {
     auth
       .signOut()
       .then(() => {
+        AsyncStorage.removeItem("login");
         navigation.replace("Welcome");
       })
       .catch((error) => alert(error.message));

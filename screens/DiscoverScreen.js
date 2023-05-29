@@ -5,29 +5,43 @@ import { HomeIcon, UserCircleIcon, MagnifyingGlassCircleIcon } from "react-nativ
 import {doc, getDoc, updateDoc, collection, query, where, getDocs, Timestamp, onSnapshot} from "firebase/firestore"
 import { auth, db, getMatchingTrips } from '../firebase'
 import TripCard from '../components/TripCard';
+import moment from 'moment';
+import firebase from 'firebase/app';
 
 const DiscoverScreen = ({ route }) => {
 
-    // Get the params from the Add Trip Screen
-    const { destination, pickup } = route.params;
+    // Get the params from the Add Trip Scren
+    const { time, flexibility, date, destination, pickup } = route.params;
+    console.log(time)
+    console.log(flexibility)
+    console.log(date)
+    console.log(destination)
+    console.log(pickup)
     const navigation = useNavigation();
     const userId = auth.currentUser.uid;
     const [trips, setTrips] = useState([]);
 
-    // // Extract the time from the time variable
-    // const hours = time.getHours();
-    // const minutes = time.getMinutes();
+    const [month, day, year] = date.split('/');
+    const [hour, minute] = time.split(':');
+    const period = minute.slice(-2);
+    const isPM = (period === 'PM');
+    console.log(isPM)
+    // Convert the string components into numbers
+    const numericMonth = parseInt(month, 10) - 1; // Month is zero-based in JavaScript's Date object
+    const numericDay = parseInt(day, 10);
+    const numericYear = parseInt(year, 10);
+    let numericHour = parseInt(hour, 10);
 
-    // // Extract the date from the date variable and format it as a string
-    // const day = date.toLocaleDateString();
+    // Adjust the hour for PM if necessary
+    if (isPM && numericHour < 12) {
+    numericHour += 12;
+    }
 
-    // // Create the start and end timestamps
-    // const startTimestamp = new Timestamp.fromMillis(
-    //   date.setHours(hours, minutes, 0, 0) // set the time to the specified hours and minutes
-    // );
-    // const endTimestamp = new Timestamp.fromMillis(
-    //   date.setHours(hours + 1, minutes, 0, 0) // set the end time to one hour after the specified time
-    // );
+    // Create a JavaScript Date object
+    const dateObject = new Date(numericYear, numericMonth, numericDay, numericHour, parseInt(minute, 10));
+    console.log(numericYear, numericMonth, numericDay, numericHour, parseInt(minute, 10));
+    const timestamp = Timestamp.fromDate(dateObject);
+    console.log(JSON.stringify(timestamp));
 
     // const getMatchingTrips = async () => {
     //   // create reference to the Trips collection

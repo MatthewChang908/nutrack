@@ -7,6 +7,7 @@ import {
     setDoc,
 } from "firebase/firestore";
 import { createUserWithEmailAndPassword, onAuthStateChanged, updateProfile } from 'firebase/auth'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SignupScreen = () => {
     const [email, setEmail] = useState("")
@@ -48,6 +49,9 @@ const SignupScreen = () => {
             const userId = user.uid;
             console.log(user);
             console.log(userId);
+            
+            AsyncStorage.setItem('login', JSON.stringify({ email, password }))
+
             // set the display name
             updateProfile(auth.currentUser, {
                 displayName: name,

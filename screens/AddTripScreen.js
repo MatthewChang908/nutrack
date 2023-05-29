@@ -87,6 +87,19 @@ const AddTripScreen = () => {
         }
         return true;
     }
+
+    const handleNavDiscover = () => {
+        if (validateAll()) {
+            navigation.navigate("DiscoverScreen", {
+                time: timeString,
+                flexibility: flexibility,
+                date: dateString,
+                pickup: pickupLocation,
+                destination: airport
+            });
+        }
+    }
+
     
     const [flexibility, setFlexibility] = useState(0);
 
@@ -182,25 +195,19 @@ const AddTripScreen = () => {
                             <View className='flex-row'>
                                 <Image source={require('../assets/plusminus.png')} 
                                     className='w-5 h-5'/>
-                                <TextInput className='w-2/3'
+                                <TextInput className='w-1/2'
                                     placeholder='0'
                                     onChangeText={(flexibility) => setFlexibility(flexibility)}
                                     value={flexibility}
                                     keyboardType='numeric'
                                 />
                             </View>
-                            <Text>hrs</Text>
+                            <Text>mins</Text>
                         </View>
                     </View>
                 </View>
-                <TouchableOpacity  onPress={() => {
-                    navigation.navigate("DiscoverScreen", { 
-                        destination: airport,
-                        pickup: preferredPickup,
-                    })}
-                }
-                className="bg-black w-full self-center h-12 mt-4 rounded-md justify-center z-0">
-                    <Text className='text-white text-center text-lg'>Find Trip</Text>
+                <TouchableOpacity onPress={() => handleNavDiscover()} className="bg-black w-full self-center h-12 mt-4 rounded-md justify-center z-0">
+                        <Text className='text-white text-center text-lg'>Find Trip</Text>
                 </TouchableOpacity>
             </View>
             
