@@ -81,14 +81,11 @@ const HomeScreen = () => {
                 </View>
                 <View className='mt-4'>
                     {trips.map((trip, index) => {
-                    const { seconds, nanoseconds } = trip.time;
-                    const timeString = `${seconds}.${nanoseconds}`;
                     return (
                         <TripCard
                             key={index} // don't forget to add a unique key to each child element when rendering an array
                             destination={trip.destination}
                             pickup={trip.pickup}
-                            time={timeString}
                             hasButton={false}
                         />
                     );
