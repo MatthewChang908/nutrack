@@ -3,11 +3,10 @@ import React, {useState, useEffect} from 'react'
 import {doc, getDoc, updateDoc, collection, query, where, getDocs} from "firebase/firestore"
 import { auth, db } from '../firebase'
 import { useNavigation } from '@react-navigation/core'
-import PassengersScreen from '../screens/PassengersScreen'
 
 const TOTAL_SEATS = 4
 
-const JoinedTripCard = (props) => {
+const PassengersCard = (props) => {
     const date = new Date(parseFloat(props.time) * 1000); // multiply by 1000 to convert seconds to milliseconds
     const month = date.getMonth() + 1; // add 1 to convert zero-based index to one-based index
     const day = date.getDate();
@@ -29,14 +28,6 @@ const JoinedTripCard = (props) => {
         time
     }
 
-    const handleDetails = () => {
-        <PassengersScreen
-            destination={props.destination}
-            pickup={props.pickup}
-            riders={props.riders}
-        />
-        navigation.navigate("PassengersScreen")
-    } 
     // const handleJoinGroup = () => {
     //     storeData();
     //     navigation.navigate("Home")
@@ -95,7 +86,7 @@ const JoinedTripCard = (props) => {
         <View className="flex-row flex justify-between mt-2">
             <TouchableOpacity
                 className="w-1/3 bg-black py-2 rounded "
-                onPress={() => {handleDetails()}}
+                // onPress={() => {handleDetails()}}
             >
                 <Text className="text-white font-bold text-center">Details</Text>
             </TouchableOpacity>
@@ -111,4 +102,4 @@ const JoinedTripCard = (props) => {
   )
 }
 
-export default JoinedTripCard
+export default PassengersCard

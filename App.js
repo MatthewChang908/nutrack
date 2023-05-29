@@ -10,6 +10,7 @@ import HomeScreen from './screens/HomeScreen';
 import AddTripScreen from './screens/AddTripScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import DiscoverScreen from './screens/DiscoverScreen';
+import PassengersScreen from './screens/PassengersScreen';
 
 export default function App() {
   const Stack = createNativeStackNavigator();
@@ -45,6 +46,10 @@ export default function App() {
           options={{ headerShown: false, gestureEnabled: false }}
           name="DiscoverScreen"
           component={DiscoverScreen} />
+        <Stack.Screen
+          options={{ headerShown: false, gestureEnabled: false }}
+          name="PassengersScreen"
+          component={PassengersScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
