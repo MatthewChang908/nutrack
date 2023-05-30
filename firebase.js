@@ -2,7 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getDatabase } from "firebase/database";
-import { getFirestore, collection, query, where, onSnapshot, setDoc, doc, arrayUnion, addDoc, updateDoc } from "firebase/firestore";
+import { getFirestore, collection, query, where, onSnapshot, setDoc, doc, arrayUnion, addDoc, updateDoc, getDoc } from "firebase/firestore";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -65,5 +65,17 @@ const addNewTrip = async (userId, time, flexibility, destination, pickup) => {
     }
 }
 
+const getUserInfo = async (riderRefs) => {
+    const userInfoPromises = riderRefs.map((riderRef) => {
+        return getDoc(riderRef).then((docSnapshot) => {
+            if (docSnapshot.exists()) {
+                return { id: docSnapshot.id, ...docSnapshot.data() };
+            } 
+        })
+    })
+    const userInfo = await Promise.all(userInfoPromises);
+    
+    return userInfo;
+}
 
-export {auth, database, app, db, getMatchingTrips, addNewTrip };
+export {auth, database, app, db, getMatchingTrips, addNewTrip, getUserInfo };

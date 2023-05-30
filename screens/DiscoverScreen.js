@@ -46,7 +46,7 @@ const DiscoverScreen = ({ route }) => {
       await addNewTrip(userId, timeStamp, flexibility, destination, pickup);
     }
 
-    const toDisplayDate = (timeStamp) => {
+    const toDisplayTime = (timeStamp) => {
       const dateObject = timeStamp.toDate();
       const time = dateObject.toLocaleTimeString('en-US', {
         hour: 'numeric',
@@ -55,6 +55,16 @@ const DiscoverScreen = ({ route }) => {
       });
 
       return time;
+    }
+
+    const toDisplayDate = (timeStamp) => {
+      const dateObject = timeStamp.toDate();
+      const options = {
+        weekday: "short",
+        month: "short",
+        day: "numeric"
+      };
+      return dateObject.toLocaleDateString("en-US", options);
     }
  
   useEffect(() => {
@@ -65,32 +75,6 @@ const DiscoverScreen = ({ route }) => {
       pickup,
       async (snapshot) => {
         const newTrips = [];
-        // await Promise.all(
-        //   // might be better to just store user names in trips documents to improve performance
-        //   snapshot.docs.map(async (doc) => {
-        //     const riders = [];
-        //     if (doc.data().riders) {
-        //       const ridersPromises = doc.data().riders.map(async (rider) => {
-        //         return getDoc(rider).then((docSnapshot) => {
-        //           if (docSnapshot.exists()) {
-        //             return { id: docSnapshot.id, ...docSnapshot.data() };
-        //           } else {
-        //             return Promise.reject(new Error("No user document."));
-        //           }
-        //         });
-        //       });
-
-        //       await Promise.allSettled(ridersPromises)
-        //         .then((resolvedRiders) => {
-        //           riders.push(...resolvedRiders.filter(Boolean));
-        //         })
-        //         .catch((error) => {
-        //           console.error("Error fetching riders:", error);
-        //         });
-        //     }
-        //     newTrips.push({ id: doc.id, ...doc.data(), riders: riders });
-        //   })
-        // );
         await snapshot.docs.map((doc) =>
           newTrips.push({ id: doc.id, ...doc.data() })
         );
@@ -113,30 +97,33 @@ const DiscoverScreen = ({ route }) => {
           <>
             {trips.length > 0 ? (
               <>
-                <View>
-                  <View>
-                    <Text className="text-2xl font-normal text-center mt-4">
-                      {pickup} to {destination}
-                    </Text>
-                    <Text className="text-xs font-normal text-center">
-                      2:30-3:30pm Thu May 11
-                    </Text>
+                  <View className="flex-1">
+                    <View>
+                      <Text className="text-2xl font-normal text-center mt-4">
+                        {pickup} to {destination}
+                      </Text>
+                      <Text className="text-xs font-normal text-center">
+                        {toDisplayTime(lbTimeStamp)}-{toDisplayTime(ubTimeStamp)} {toDisplayDate(timestamp)}
+                      </Text>
+                    </View>
+                    <ScrollView className="w-full mt-6 h-5/6">
+                      {trips.map((trip) => {
+                        return (
+                          <View
+                            className="items-center mx-6 mt-4"
+                            key={trip.id}
+                          >
+                            <TripCard
+                              destination={trip.destination}
+                              pickup={trip.pickup}
+                              riderRefs={trip.riderRefs}
+                              time={toDisplayTime(trip.time)}
+                            />
+                          </View>
+                        );
+                      })}
+                    </ScrollView>
                   </View>
-                  <ScrollView className="w-full mt-6">
-                    {trips.map((trip) => {
-                      return (
-                        <View className="items-center mx-6 mt-4" key={trip.id}>
-                          <TripCard
-                            destination={trip.destination}
-                            pickup={trip.pickup}
-                            riders={trip.riders}
-                            time={toDisplayDate(trip.time)}
-                          />
-                        </View>
-                      );
-                    })}
-                  </ScrollView>
-                </View>
 
                 <View className="flex-row justify-between px-10">
                   <TouchableOpacity

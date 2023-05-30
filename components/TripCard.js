@@ -1,6 +1,7 @@
 import { View, Text, TouchableOpacity } from 'react-native'
 import React, {useState, useEffect} from 'react'
 import {doc, getDoc, updateDoc, collection, query, where, getDocs} from "firebase/firestore"
+import { getUserInfo } from '../firebase'
 import { auth, db } from '../firebase'
 import { useNavigation } from '@react-navigation/core'
 import sendSms from '../screens/sendSms'
@@ -13,8 +14,10 @@ const TripCard = (props) => {
     const day = date.getDate();
     const time = date.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
     const id = props.id;
+    const riderRefs = props.riderRefs;
 
-    const [show, setShow] = useState(true)
+    const [show, setShow] = useState(true);
+    const [userInfo, setUserInfo] = useState([]);
     const navigation = useNavigation();
     const handlePress = () => {
         setShow(!show)
@@ -64,6 +67,13 @@ const TripCard = (props) => {
         }
     }
 
+    useEffect(() => {
+        const fetchUserInfo = async () => {
+            const userInfo = await getUserInfo(riderRefs);
+            setUserInfo(userInfo);
+        }
+        fetchUserInfo();
+    }, [riderRefs]);
 
   return (
     <View className="border-2 mb-2 px-4 py-2 rounded-2xl w-full">
@@ -72,15 +82,15 @@ const TripCard = (props) => {
           <Text className="text-lg text-left font-normal">
             {props.time} @ {props.destination}
           </Text>
-          <Text className="text-lg text-right font-light">
-            {/* {TOTAL_SEATS - props.riders.length} Seat Left */}
+          <Text className="text-lg text-right font-normal">
+            {TOTAL_SEATS - userInfo.length} Seat Left
           </Text>
         </View>
-        <View className="flex-row justify-between mx-4 my-4 no-wrap">
-          {/* {props.rider.length > 0 &&
-            props.riders.map((rider) => {
-              return <Text key={rider.id}>{rider.userName} </Text>;
-            })} */}
+        <View className="flex-row justify-evenly mx-4 my-4 no-wrap">
+          {userInfo.length > 0 &&
+            userInfo.map((user) => {
+              return <Text key={user.id}>{user.userName} </Text>;
+            })}
         </View>
       </TouchableOpacity>
       <View className="flex justify-center items-center mt-2">
