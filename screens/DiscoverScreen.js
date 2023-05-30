@@ -6,6 +6,9 @@ import { Timestamp } from "firebase/firestore"
 import { auth, getMatchingTrips, addNewTrip } from '../firebase'
 import TripCard from '../components/TripCard';
 
+// Set to 100 for now so all trips are shown, regardless of availability
+const maxRidersCount = 100;
+
 const DiscoverScreen = ({ route }) => {
 
     const [isLoading, setIsLoading] = useState(true);
@@ -113,12 +116,15 @@ const DiscoverScreen = ({ route }) => {
                             className="items-center mx-6 mt-4"
                             key={trip.id}
                           >
-                            <TripCard
-                              destination={trip.destination}
-                              pickup={trip.pickup}
-                              riderRefs={trip.riderRefs}
-                              time={toDisplayTime(trip.time)}
-                            />
+                            {/* Does not render trip card if the trip is full */}
+                            {trips.riderRefs.length == maxRidersCount && (
+                              <TripCard
+                                destination={trip.destination}
+                                pickup={trip.pickup}
+                                riderRefs={trip.riderRefs}
+                                time={toDisplayTime(trip.time)}
+                              />
+                            )}
                           </View>
                         );
                       })}
