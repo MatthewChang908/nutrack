@@ -95,15 +95,16 @@ const HomeScreen = () => {
                     </Text>
                 </View> */}
                 <ScrollView className='w-full h-full'>
-                    {trips.map((trip) => {
+                    {trips.map((trip, index) => {
                         // const { seconds, nanoseconds } = trip.time;
                         // const timeString = `${seconds}.${nanoseconds}`;
                         return (
                         <View className='items-center mx-6 mt-4' key={trip.id}>
                             <JoinedTripCard
+                            key={index}
                             destination={trip.destination}
                             pickup={trip.pickup}
-                            riders={trip.riders}
+                            riders={trip.riderRefs}
                             // time={time}
                             />
                         </View>

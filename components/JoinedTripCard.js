@@ -13,7 +13,9 @@ const JoinedTripCard = (props) => {
     const day = date.getDate();
     const time = date.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
     const id = props.id;
-
+    const destination = props.destination;
+    const pickup = props.pickup;
+    const riders = props.riders;
     const [show, setShow] = useState(true)
     const navigation = useNavigation();
     const handlePress = () => {
@@ -30,12 +32,12 @@ const JoinedTripCard = (props) => {
     }
 
     const handleDetails = () => {
-        <PassengersScreen
-            destination={props.destination}
-            pickup={props.pickup}
-            riders={props.riders}
-        />
-        navigation.navigate("PassengersScreen")
+        navigation.navigatekla("PassengersScreen", { 
+            destination: destination,
+            pickup: pickup,
+            riders: riders
+        })
+
     } 
     // const handleJoinGroup = () => {
     //     storeData();

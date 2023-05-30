@@ -22,13 +22,13 @@ import {
   import PassengersCard from "../components/PassengersCard";
   
   
-  const PassengersScreen = (props) => {
-      const { destination, pickup } = useState();
+  const PassengersScreen = ({props}) => {
+      const { destination,pickup,riders } = props.params;
       const navigation = useNavigation();
       const userId = auth.currentUser.uid;
       const [hasTrips, setHasTrips] = useState(false);
       const [trips, setTrips] = useState([]);
-      console.log(props.riders)
+      console.log(riders)
 
   
     //   const getTrips = async () => {
