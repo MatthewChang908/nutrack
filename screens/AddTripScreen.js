@@ -1,123 +1,215 @@
-import { View, Text, SafeAreaView, TextInput, TouchableOpacity, Button, ScrollView, KeyboardAvoidingView } from 'react-native'
+import { View, Text, SafeAreaView, TextInput, TouchableOpacity, Button, Image, KeyboardAvoidingView } from 'react-native'
 import React, {useState} from 'react'
 import { useNavigation } from '@react-navigation/core'
-import DateTimePicker from '@react-native-community/datetimepicker';
+import { ChevronLeftIcon, ChevronDownIcon } from 'react-native-heroicons/outline';
 
 
 const AddTripScreen = () => {
     const navigation = useNavigation()
-    const [airport, setAirport] = useState("O'Hare")
-    const [preferredPickup, setPreferredPickup] = useState("Evanston")
 
-    
-    const [date, setDate] = useState(new Date());
-    const [time, setTime] = useState(new Date("2023-05-12"));
     const [dateString, setDateString] = useState("");
     const [timeString, setTimeString] = useState("");
-    const [showDate, setShowDate] = useState(false);
-    const [showTime, setShowTime] = useState(false);
-  
-    const onChangeTime = (event, selectedDate) => {
-        setTimeString(selectedDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}));
-        setShowTime(false);
-        setTime(selectedDate);
+    const [showPickup, setShowPickup] = useState(false);
+    const [pickupLocation, setPickupLocation] = useState("None");
+
+    handleShowPickup = () => {
+        if (showAirport) {
+            setShowAirport(false);
+        }
+        setShowPickup(!showPickup);   
+    }
+
+    handleSetPickup = (location) => {
+        setPickupLocation(location);
+        setShowPickup(false);
+    }
+
+    const pickupLocations = [
+        "Sargent",
+        "Tech",
+        "Willard",
+        "Elder",
+        "Foster-Walker",
+        "Allison",
+        "Shepard",
+        "Lincoln"
+    ]
+
+    const airports = [
+        "O'Hare",
+        "Midway"
+    ]
+
+    const [showAirport, setShowAirport] = useState(false);
+    const [airport, setAirport] = useState("None");
+
+    handleShowAirport = () => {
+        if (showPickup) {
+            setShowPickup(false);
+        }
+        setShowAirport(!showAirport);
+
+    }
+
+    handleSetAirport = (location) => {
+        setAirport(location);
+        setShowAirport(false);
+    }
+
+    const validateTimeFormat = (input) => {
+        const pattern = /^(0[1-9]|1[0-2]):[0-5][0-9] (AM|PM)$/;
+    
+        return pattern.test(input);
+      };
+    
+    const validateDateFormat = (input) => {
+    const pattern = /^(0[1-9]|1[0-2])\/(0[1-9]|1\d|2\d|3[01])\/\d{4}$/;
+    return pattern.test(input);
     };
-    const onChangeDate = (event, selectedDate) => {
-        setDateString(selectedDate.toLocaleDateString());
-        setShowDate(false);
-        setDate(selectedDate);
-    };
-  
-    const handleShowDate = () => {
-        setShowDate(!showDate);
-    };
-  
-    const handleShowTime = () => {
-        setShowTime(!showTime);
-    };
+
+    const validateAll = () => {
+        if (!validateDateFormat(dateString)) {
+            alert("Please enter a valid date in the format mm/dd/yyyy");
+            return false;
+        }
+        if (!validateTimeFormat(timeString)) {
+            alert("Please enter a valid time in the format hh:mm AM/PM");
+            return false;
+        }
+        if (pickupLocation === "None") {
+            alert("Please select a pickup location");
+            return false;
+        }
+        if (airport === "None") {
+            alert("Please select an airport");
+            return false;
+        }
+        return true;
+    }
+
+    const handleNavDiscover = () => {
+        if (validateAll()) {
+            navigation.navigate("DiscoverScreen", {
+                time: timeString,
+                flexibility: flexibility,
+                date: dateString,
+                pickup: pickupLocation,
+                destination: airport
+            });
+        }
+    }
+
+    
+    const [flexibility, setFlexibility] = useState(0);
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
-        <TouchableOpacity onPress={() => navigation.navigate("Home")}>
-                <Text className="ml-4 pt-2 font-medium text-l">Back</Text>
-        </TouchableOpacity>
-        
-        <KeyboardAvoidingView behavior="padding" enabled>
-            <ScrollView>
-        
-  
-        <Text className='text-4xl font-medium mt-8 ml-8'>Enter Trip Information</Text>
-        
-        <View className='bg-white grid grid-cols-1 divide-y items-left w-full mt-4 pl-8 pr-8 divide-gray-400'> 
+    <SafeAreaView className="flex-1 bg-white z-0">
+        <KeyboardAvoidingView behavior="padding">    
 
-        <View>
-            <Text className="font-bold text-lg mt-2">Date of Trip</Text>
-            <TouchableOpacity className='bg-white border-black border-1 mt-2 -mb-1'
-            onPress={handleShowDate}>
-                <Text className="text-lg">{date.toLocaleDateString()} ▼</Text>
+            <TouchableOpacity className='m-8 mb-0'onPress={() => navigation.navigate("Home")}>
+                    <Image source={require('../assets/back.png')}/>
             </TouchableOpacity>
             
-            {showDate && (
-                    <DateTimePicker
-                    testID="datePicker"
-                    value={date}
-                    mode='date'
-                    onChange={onChangeDate}
-                />
-            )}
-
-        </View>
-
-     
-        <View className="mt-4">
-            <Text className="font-bold text-lg mt-2">Time of Trip</Text>
-            <TouchableOpacity className='bg-white border-black mt-2 -mb-1' 
-            onPress={handleShowTime}>
-                <Text className="text-lg">{time.toLocaleTimeString()} ▼</Text>
-            </TouchableOpacity>
+                
+    
+            <Text className='text-4xl font-medium mt-8 ml-8'>Find Trip</Text>
             
-            {showTime && (
-                    <DateTimePicker
-                    testID="timePicker"
-                    value={time}
-                    mode='time'
-                    is24Hour={true}
-                    onChange={onChangeTime}
-                    />
-            )}
-        </View>
+            <View className='w-10/12 self-center'>
+                <View className='flex-row justify-between pt-3 z-20'>
+                    <View className='w-5/12'>
+                        <Text>Trip Date</Text>
+                        <TextInput className='border rounded-md h-12 w-full p-2'
+                            placeholder='mm/dd/yyyy'
+                            onChangeText={(date) => setDateString(date)}
+                            value={dateString}
+                        />
+                    </View>
 
-        <View className="mt-4">
-            <Text className="font-bold text-lg mt-2">Airport</Text>
-            <TextInput className='bg-white border-gray-200 border-2 rounded-lg text-md pl-2 h-9'
-                onChangeText={(airport) => setAirport(airport)} 
-                value={airport}
-            />
-        </View>
-        <View className="mt-4 mb-4">
-            <Text className="font-bold text-lg mt-2">Preferred Pickup Location</Text>
-            <TextInput className='bg-white border-gray-200 border-2 rounded-lg text-md pl-2 h-9'
-                onChangeText={(preferredPickup) => setPreferredPickup(preferredPickup)}
-                value={preferredPickup}
-            />
-        </View>
+                    <View className='w-5/12'>
+                        <Text>Airport</Text>
+                        <TouchableOpacity className='border rounded-md h-12 items-center justify-between p-2 flex-row'
+                            onPress={() => handleShowAirport()}>
+                                <Text>{airport}</Text>
+                                {showAirport ? (
+                                    <ChevronDownIcon color={"#000000"} size={20}/>
+                                ) : (
+                                    <ChevronLeftIcon color={"#000000"} size={20}/>
+                                )}
+                        </TouchableOpacity>
+                        <View className='items-center'>
+                            {showAirport ? (
+                                <View className='absolute w-10/12'>
+                                    {airports.map((loc, index) => (
+                                        <TouchableOpacity key={index} className='border h-12 items-start justify-center p-2 bg-white'
+                                        onPress={() => handleSetAirport(loc)}>
+                                            <Text>{loc}</Text>
+                                        </TouchableOpacity>
+                                    ))}
+                                </View>
+                            ) : null}
+                        </View>
+                    </View>
+                </View>
+               
 
-        </View>
-            </ScrollView>
-            <View className="grid grid-cols-1 divide-y divide-gray-400 pl-8 pr-8">
-            <View></View>
-            <View className="flex-1 bg-white w-full mt-4 pl-8 pr-8 divide-gray-400 mb-2">
-                <TouchableOpacity onPress={() => {
-                    navigation.navigate("DiscoverScreen", { 
-                        destination: airport,
-                        pickup: preferredPickup,
-                    })}
-                }
-                className="bg-black w-full h-12 mt-4 rounded-md">
-                    <Text className="text-white font-bold text-center mt-4">FIND TRIP</Text>
+                <View className='pt-3 z-10'>
+                    <Text>Pickup Location</Text>
+                    <TouchableOpacity className='border rounded-md h-12 w-full items-center justify-between p-2 flex-row'
+                        onPress={() => handleShowPickup()}>
+                            <Text>{pickupLocation}</Text>
+                            {showPickup ? (
+                                <ChevronDownIcon color={"#000000"} size={20}/>
+                            ) : (
+                                <ChevronLeftIcon color={"#000000"} size={20}/>
+                            )}
+                    </TouchableOpacity>
+                    <View className='items-center'>
+                        {showPickup ? (
+                            <View className='absolute w-10/12'>
+                                {pickupLocations.map((location, index) => (
+                                    <TouchableOpacity key={index} className='border h-12 items-start justify-center p-2 bg-white'
+                                    onPress={() => handleSetPickup(location)}>
+                                        <Text>{location}</Text>
+                                    </TouchableOpacity>
+                                ))}
+                            </View>
+                        ) : null}
+                    </View>
+                </View>
+         
+             
+                <View className='flex-row justify-between pt-3'>
+                    <View className='w-5/12'>
+                        <Text>Pickup Time</Text>
+                        <TextInput className='border rounded-md h-12 w-full p-2' 
+                            placeholder='00:00 AM'
+                            onChangeText={(time) => setTimeString(time)}
+                            value={timeString}
+                        />
+                    </View>
+                
+                    <View className='w-5/12'>
+                        <Text>Flexibility</Text>
+                        <View className='border rounded-md flex-row h-12 items-center justify-between p-2'>    
+                            <View className='flex-row'>
+                                <Image source={require('../assets/plusminus.png')} 
+                                    className='w-5 h-5'/>
+                                <TextInput className='w-1/2'
+                                    placeholder='0'
+                                    onChangeText={(flexibility) => setFlexibility(flexibility)}
+                                    value={flexibility}
+                                    keyboardType='numeric'
+                                />
+                            </View>
+                            <Text>mins</Text>
+                        </View>
+                    </View>
+                </View>
+                <TouchableOpacity onPress={() => handleNavDiscover()} className="bg-black w-full self-center h-12 mt-4 rounded-md justify-center z-0">
+                        <Text className='text-white text-center text-lg'>Find Trip</Text>
                 </TouchableOpacity>
             </View>
-            </View>
+            
         </KeyboardAvoidingView>
     </SafeAreaView>
   )

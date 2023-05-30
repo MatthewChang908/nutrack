@@ -2,7 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getDatabase } from "firebase/database";
-import { getFirestore, collection, query, where, onSnapshot } from "firebase/firestore";
+import { getFirestore, collection, query, where, onSnapshot, setDoc, doc, arrayUnion, addDoc, updateDoc } from "firebase/firestore";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -27,7 +27,7 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 // function for getting trips based on attributes
-const getMatchingTrips = (destination, pickup, snapshot, error) => {
+const getMatchingTrips = (lbTimeStamp, ubTimeStamp, destination, pickup, snapshot, error) => {
     // create reference to the Trips collection
     const tripsRef = collection(db, "Trips");
 
@@ -37,12 +37,33 @@ const getMatchingTrips = (destination, pickup, snapshot, error) => {
     const q = query(
         tripsRef, 
         where("destination", "==", destination),
-        // where("time", "==", time),
-        // where("pickup", "==", pickup),
+        where("time", ">=", lbTimeStamp),
+        where("time", "<=", ubTimeStamp),
+        where("pickup", "==", pickup),
     );
 
     return onSnapshot(q, snapshot, error);
 }
 
+// function for creating new trips
+const addNewTrip = async (userId, time, flexibility, destination, pickup) => {
+    try {
+        // Create trip document
+        const tripDocRef = await addDoc(collection(db, "Trips"), {
+            time: time,
+            flexibility: flexibility,
+            destination: destination,
+            pickup: pickup,
+            riderRefs: [doc(db, "Users", userId)],
+        });
+        // Add trip to user document
+        await updateDoc(doc(db, "Users", userId), {
+            trips: arrayUnion(tripDocRef.id),
+        })
+    } catch (e) {
+        console.error(e);
+    }
+}
 
-export {auth, database, app, db, getMatchingTrips};
+
+export {auth, database, app, db, getMatchingTrips, addNewTrip };

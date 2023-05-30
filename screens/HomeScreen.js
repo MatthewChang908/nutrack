@@ -12,6 +12,8 @@ import { useNavigation } from "@react-navigation/core";
 import { 
     doc,
     getDoc,
+    updateDoc,
+    Timestamp
 } from "firebase/firestore";
 import {
   HomeIcon,
@@ -19,6 +21,7 @@ import {
   MagnifyingGlassCircleIcon,
 } from "react-native-heroicons/outline";
 import TripCard from '../components/TripCard';
+import firebase from 'firebase/app';
 import JoinedTripCard from '../components/JoinedTripCard'
 
 const HomeScreen = () => {
@@ -117,14 +120,11 @@ const HomeScreen = () => {
                 
                 {/* <View className='mt-4'>
                     {trips.map((trip, index) => {
-                    const { seconds, nanoseconds } = trip.time;
-                    const timeString = `${seconds}.${nanoseconds}`;
                     return (
                         <TripCard
                             key={index} // don't forget to add a unique key to each child element when rendering an array
                             destination={trip.destination}
                             pickup={trip.pickup}
-                            time={timeString}
                             hasButton={false}
                         />
                     );

@@ -3,6 +3,9 @@ import React, {useState, useEffect} from 'react'
 import {auth} from "../firebase";
 import { signInWithEmailAndPassword, onAuthStateChanged} from "firebase/auth"
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
 const LoginScreen = () => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
@@ -20,6 +23,7 @@ const LoginScreen = () => {
         signInWithEmailAndPassword(auth, email, password)
         .then((userCredentials) => {
             const user = userCredentials.user;
+            AsyncStorage.setItem('login', JSON.stringify({ email, password }))
             console.log("Logged in with: ", user.email);
         })
         .catch(error => alert(error.message))
