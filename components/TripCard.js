@@ -66,32 +66,35 @@ const TripCard = (props) => {
 
 
   return (
-    <View className='border-2 mb-2 px-4 py-2 rounded-2xl w-full'>
-        <TouchableOpacity onPress={() => handlePress()}>
-            <View className='flex-row flex justify-between'>
-                <Text className='text-lg text-left font-normal'>
-                    3pm @ {props.destination}
-                </Text>
-                <Text className='text-lg text-right font-light'>
-                    {TOTAL_SEATS - props.riders.length} Seat Left
-                </Text>
-            </View>
-            <View className='flex-row justify-between mx-4 my-4 no-wrap'>
-                {props.riders.map((rider) => {
-                    return <Text key={rider.id}>{rider.userName} </Text>
-                })}
-            </View>
-        </TouchableOpacity>
-        <View className="flex justify-center items-center mt-2">
-            <TouchableOpacity
-                className="w-1/3 bg-black py-2 rounded"
-                onPress={() => {handleJoinGroup()}}
-            >
-                <Text className="text-white font-bold text-center">Join</Text>
-            </TouchableOpacity>
+    <View className="border-2 mb-2 px-4 py-2 rounded-2xl w-full">
+      <TouchableOpacity onPress={() => handlePress()}>
+        <View className="flex-row flex justify-between">
+          <Text className="text-lg text-left font-normal">
+            {props.time} @ {props.destination}
+          </Text>
+          <Text className="text-lg text-right font-light">
+            {/* {TOTAL_SEATS - props.riders.length} Seat Left */}
+          </Text>
         </View>
+        <View className="flex-row justify-between mx-4 my-4 no-wrap">
+          {/* {props.rider.length > 0 &&
+            props.riders.map((rider) => {
+              return <Text key={rider.id}>{rider.userName} </Text>;
+            })} */}
+        </View>
+      </TouchableOpacity>
+      <View className="flex justify-center items-center mt-2">
+        <TouchableOpacity
+          className="w-1/3 bg-black py-2 rounded"
+          onPress={() => {
+            handleJoinGroup();
+          }}
+        >
+          <Text className="text-white font-bold text-center">Join</Text>
+        </TouchableOpacity>
+      </View>
     </View>
-  )
+  );
 }
 
 export default TripCard

@@ -1,8 +1,7 @@
 import { View, Text, TouchableOpacity, SafeAreaView } from 'react-native'
 import { useNavigation } from '@react-navigation/core'
-import { useEffect } from 'react';
 
-const CreatedNewTripModalScreen = ( { route } ) => {
+const CreatedNewTripModalScreen = () => {
     const navigation = useNavigation()
 
     return (

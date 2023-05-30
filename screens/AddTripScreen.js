@@ -1,7 +1,6 @@
 import { View, Text, SafeAreaView, TextInput, TouchableOpacity, Button, Image, KeyboardAvoidingView } from 'react-native'
 import React, {useState} from 'react'
 import { useNavigation } from '@react-navigation/core'
-import DateTimePicker from '@react-native-community/datetimepicker';
 import { ChevronLeftIcon, ChevronDownIcon } from 'react-native-heroicons/outline';
 
 

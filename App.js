@@ -11,42 +11,59 @@ import AddTripScreen from './screens/AddTripScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import DiscoverScreen from './screens/DiscoverScreen';
 import CheckLoginScreen from './screens/CheckLoginScreen';
+import CreatedNewTripModalScreen from './screens/CreatedNewTripModalScreen';
 
 export default function App() {
   const Stack = createNativeStackNavigator();
   const Tab = createBottomTabNavigator();
   return (
     <NavigationContainer>
-        <Stack.Navigator initialRouteName="CheckLogin">
-          <Stack.Screen options={{headerShown: false, gestureEnabled: false, }} name={"CheckLogin"} component={CheckLoginScreen}/>
-        <Stack.Screen           
+      <Stack.Navigator initialRouteName="CheckLogin">
+        <Stack.Screen
           options={{ headerShown: false, gestureEnabled: false }}
-          name="Welcome" 
-          component={WelcomeScreen} />
-        <Stack.Screen 
+          name={"CheckLogin"}
+          component={CheckLoginScreen}
+        />
+        <Stack.Screen
           options={{ headerShown: false, gestureEnabled: false }}
-          name="Login" 
-          component={LoginScreen} />
-        <Stack.Screen 
+          name="Welcome"
+          component={WelcomeScreen}
+        />
+        <Stack.Screen
           options={{ headerShown: false, gestureEnabled: false }}
-          name="Signup"   
-          component={SignupScreen} />
-        <Stack.Screen 
+          name="Login"
+          component={LoginScreen}
+        />
+        <Stack.Screen
           options={{ headerShown: false, gestureEnabled: false }}
-          name="Home"  
-          component={HomeScreen} />
+          name="Signup"
+          component={SignupScreen}
+        />
+        <Stack.Screen
+          options={{ headerShown: false, gestureEnabled: false }}
+          name="Home"
+          component={HomeScreen}
+        />
         <Stack.Screen
           options={{ headerShown: false, gestureEnabled: false }}
           name="AddTrip"
-          component={AddTripScreen} />
+          component={AddTripScreen}
+        />
         <Stack.Screen
           options={{ headerShown: false, gestureEnabled: false }}
           name="Profile"
-          component={ProfileScreen} />
+          component={ProfileScreen}
+        />
         <Stack.Screen
           options={{ headerShown: false, gestureEnabled: false }}
           name="DiscoverScreen"
-          component={DiscoverScreen} />
+          component={DiscoverScreen}
+        />
+        <Stack.Screen
+          options={{ headerShown: false, gestureEnabled: false }}
+          name="CreatedNewTrip"
+          component={CreatedNewTripModalScreen}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
