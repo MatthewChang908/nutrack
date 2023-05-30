@@ -22,8 +22,8 @@ import {
   import PassengersCard from "../components/PassengersCard";
   
   
-  const PassengersScreen = ({props}) => {
-      const { destination,pickup,riders } = props.params;
+  const PassengersScreen = ({route}) => {
+      const { destination,pickup,riders } = route.params;
       const navigation = useNavigation();
       const userId = auth.currentUser.uid;
       const [hasTrips, setHasTrips] = useState(false);

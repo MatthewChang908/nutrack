@@ -32,7 +32,7 @@ const JoinedTripCard = (props) => {
     }
 
     const handleDetails = () => {
-        navigation.navigatekla("PassengersScreen", { 
+        navigation.navigate("PassengersScreen", { 
             destination: destination,
             pickup: pickup,
             riders: riders

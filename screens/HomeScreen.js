@@ -87,16 +87,16 @@ const HomeScreen = () => {
                     </Text>
                 </View>
 
+                <View>
+                    <TouchableOpacity 
+                    onPress={() => navigation.navigate('AddTrip')} 
+                    className="bg-black w-10/12 self-center h-12 mt-4 rounded-md justify-center">
+                    <Text className='text-white text-center text-lg'>Find Trip</Text>
+                </TouchableOpacity> 
+                </View>
+
 
                 <View>
-                {/* <View>
-                    <Text className='text-2xl font-normal text-center mt-4'>
-                    {pickup} to {destination}
-                    </Text>
-                    <Text className='text-xs font-normal text-center'>
-                    2:30-3:30pm Thu May 11
-                    </Text>
-                </View> */}
                 <ScrollView className='w-full h-full'>
                     {trips.map((trip, index) => {
                         // const { seconds, nanoseconds } = trip.time;
@@ -116,20 +116,6 @@ const HomeScreen = () => {
                 </ScrollView>
                 </View>
 
-
-                
-                {/* <View className='mt-4'>
-                    {trips.map((trip, index) => {
-                    return (
-                        <TripCard
-                            key={index} // don't forget to add a unique key to each child element when rendering an array
-                            destination={trip.destination}
-                            pickup={trip.pickup}
-                            hasButton={false}
-                        />
-                    );
-                    })}
-                </View> */}
             </View>
         )}
         {!hasTrips && (
@@ -154,12 +140,7 @@ const HomeScreen = () => {
                 source={require("../assets/map.png")}
                 className="flex justify-between w-80 h-40 ml-10 mt-32 mb-16"
                 /> */}
-
-                {/* <TouchableOpacity 
-                    onPress={() => navigation.navigate('AddTrip')} 
-                    className="bg-black w-10/12 self-center h-12 mt-4 rounded-md justify-center">
-                    <Text className='text-white text-center text-lg'>Find Trip</Text>
-                </TouchableOpacity>                 */}
+              
             </View>
         )}
 
