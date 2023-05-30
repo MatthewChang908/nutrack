@@ -87,17 +87,16 @@ const HomeScreen = () => {
                     </Text>
                 </View>
 
-                <View>
-                    <TouchableOpacity 
-                    onPress={() => navigation.navigate('AddTrip')} 
-                    className="bg-black w-10/12 self-center h-12 mt-4 rounded-md justify-center">
-                    <Text className='text-white text-center text-lg'>Find Trip</Text>
-                </TouchableOpacity> 
-                </View>
-
 
                 <View>
-                <ScrollView className='w-full h-full'>
+                <ScrollView className='w-full h-6/7'>
+                    <View className='flex mt-8 items-center justify-center'>
+                        <TouchableOpacity 
+                        onPress={() => navigation.navigate('AddTrip')} 
+                        className="bg-black w-10/12 self-center h-10 rounded-md justify-center">
+                        <Text className='text-white text-center text-lg'>Find Trip</Text>
+                    </TouchableOpacity> 
+                    </View>
                     {trips.map((trip, index) => {
                         // const { seconds, nanoseconds } = trip.time;
                         // const timeString = `${seconds}.${nanoseconds}`;
@@ -115,7 +114,6 @@ const HomeScreen = () => {
                         })}
                 </ScrollView>
                 </View>
-
             </View>
         )}
         {!hasTrips && (
